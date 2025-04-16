@@ -1,0 +1,127 @@
+/* Основные стили */
+body {
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* Плавные переходы */
+a, button {
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+/* Эффекты при наведении */
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Анимация модального окна */
+.modal {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Анимация кнопок */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.btn-accent {
+  animation: pulse 2s infinite;
+}
+
+.cta-gradient {
+  background: linear-gradient(135deg, #3B82F6 0%, #F97316 100%);
+}
+
+.btn-gradient {
+  background: linear-gradient(to right, #3B82F6, #8B5CF6);
+  color: white;
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-gradient:after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255,255,255,0.3) 0%,
+    rgba(255,255,255,0) 60%
+  );
+  transform: rotate(30deg);
+}
+
+.btn {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+gsap.from("header", { y: -50, opacity: 0, duration: 0.8 });
+gsap.from(".feature-card", {
+  opacity: 0,
+  y: 30,
+  stagger: 0.1,
+  delay: 0.3
+});
+
+.template-card {
+  transition: box-shadow 0.3s;
+}
+
+.template-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Пульсация логотипа */
+.hero-logo {
+  animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+/* Эффект при наведении */
+.logo-border-animation:hover::after {
+  opacity: 1;
+  animation: borderGlow 1s linear infinite;
+}
+
+/* Анимация рамки при наведении */
+.navbar-brand img:hover {
+  transform: rotate(360deg);
+  transition: transform 0.7s ease;
+}
+
+/* Свечение логотипа в герое */
+.hero-section img {
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+  to {
+    box-shadow: 0 0 20px rgba(253, 126, 20, 0.8);
+  }
+}

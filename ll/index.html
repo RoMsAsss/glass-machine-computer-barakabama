@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IT Legal Docs</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <!-- Кастомные стили -->
+  <style>
+    :root {
+      --bs-orange: #fd7e14;
+      --bs-blue: #0d6efd;
+      --bs-gradient: linear-gradient(135deg, #3B82F6 0%, #F97316 100%);
+    }
+
+    /* Кастомные стили */
+    .hero-section {
+      background: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+      background-size: cover;
+      position: relative;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-5px);
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .btn-gradient {
+      background: var(--bs-gradient);
+      border: none;
+      color: white;
+    }
+
+    .btn-gradient:hover {
+      background: linear-gradient(135deg, #2c6fdb 0%, #e06b10 100%);
+      color: white;
+    }
+
+    .pricing-card {
+      transition: all 0.3s ease;
+    }
+
+    .pricing-card:hover {
+      transform: scale(1.03);
+    }
+
+    .recommended {
+      border: 2px solid var(--bs-orange);
+      position: relative;
+    }
+
+    .recommended-badge {
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      background: var(--bs-orange);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+
+    /* Анимации для плавного появления */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-in-section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Стиль для кнопки админа */
+    .btn-admin {
+      background: #6c757d;
+      color: white;
+      border: none;
+    }
+
+    .btn-admin:hover {
+      background: #5a6268;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Навигация -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <!-- Вставьте этот код вместо <a class="navbar-brand fw-bold" href="#">LegalIT</a> -->
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+      <img
+        src="logo.jpg"
+        alt="DogovorIP Logo"
+        width="40"
+        height="40"
+        class="d-inline-block me-2 rounded-circle border border-2 border-warning animate__animated animate__pulse animate__infinite"
+      >
+      DogovorIP
+    </a>
+    <!-- Остальной код навигации (кнопка, меню и т.д.)без изменений -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#templates">Шаблоны</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#pricing">Тарифы</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#blog">Блог</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contacts">Контакты</a>
+          </li>
+        </ul>
+        <div class="d-flex">
+          <button class="btn btn-admin me-2">Войти как админ</button>
+          <button class="btn btn-gradient animate__animated animate__pulse animate__infinite">
+            Бесплатная консультация
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero-блок -->
+  <section class="hero-section text-white py-5">
+    <div class="container position-relative py-5 my-5">
+      <div class="row py-5">
+        <div class="col-lg-8 mx-auto text-center py-5 animate__animated animate__fadeIn">
+          <div class="mb-4">
+            <img
+              src="logo.jpg"
+              alt="DogovorIP"
+              width="120"
+              height="120"
+              class="rounded-circle border border-4 border-white shadow-lg"
+            >
+          </div>
+          <h1 class="display-4 fw-bold mb-4">Юридические шаблоны для IT-бизнеса 2025</h1>
+          <p class="lead mb-5">Актуальные документы для разработчиков, инфобизнеса и маркетологов</p>
+          <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            <button class="btn btn-warning btn-lg px-4 me-sm-3 fw-bold animate__animated animate__pulse animate__infinite">
+              Получить 3 бесплатных шаблона
+            </button>
+            <button class="btn btn-outline-light btn-lg px-4">
+              Смотреть все тарифы
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Преимущества -->
+  <section class="py-5 bg-light" id="features">
+    <div class="container py-5">
+      <div class="text-center mb-5 fade-in-section">
+        <h2 class="fw-bold">Почему выбирают нас?</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4 fade-in-section">
+          <div class="card h-100 text-center p-4">
+            <div class="feature-icon">📅</div>
+            <h3 class="h4">Актуально на 2025 год</h3>
+            <p class="text-muted">Все документы соответствуют последним изменениям в законодательстве</p>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in-section">
+          <div class="card h-100 text-center p-4">
+            <div class="feature-icon">✔️</div>
+            <h3 class="h4">Проверено IT-юристами</h3>
+            <p class="text-muted">Каждый документ проверен специалистами с опытом работы в IT</p>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in-section">
+          <div class="card h-100 text-center p-4">
+            <div class="feature-icon">💰</div>
+            <h3 class="h4">Экономия до 25 000₽</h3>
+            <p class="text-muted">Избегайте дорогостоящих услуг юристов с нашими шаблонами</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Популярные шаблоны -->
+  <section class="py-5" id="templates">
+    <div class="container py-5">
+      <div class="text-center mb-5 fade-in-section">
+        <h2 class="fw-bold">ТОП-5 документов для digital-бизнеса</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4 fade-in-section">
+          <div class="card card-hover h-100">
+            <div class="card-body text-center">
+              <h3 class="card-title h5">Договор разработки ПО</h3>
+              <p class="card-text text-muted">Для фрилансеров и студий</p>
+              <button class="btn btn-outline-primary">Скачать демо</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in-section">
+          <div class="card card-hover h-100">
+            <div class="card-body text-center">
+              <h3 class="card-title h5">Оферта для онлайн-курсов</h3>
+              <p class="card-text text-muted">Для инфобизнеса и образования</p>
+              <button class="btn btn-outline-primary">Скачать демо</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in-section">
+          <div class="card card-hover h-100">
+            <div class="card-body text-center">
+              <h3 class="card-title h5">Политика конфиденциальности</h3>
+              <p class="card-text text-muted">Для сайтов и мобильных приложений</p>
+              <button class="btn btn-outline-primary">Скачать демо</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-5 fade-in-section">
+        <button class="btn btn-primary">Весь каталог (30+ шаблонов)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Тарифы -->
+  <section class="py-5 bg-light" id="pricing">
+    <div class="container py-5">
+      <div class="text-center mb-5 fade-in-section">
+        <h2 class="fw-bold">Выберите свой план</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4 fade-in-section">
+          <div class="card pricing-card h-100">
+            <div class="card-body text-center p-4">
+              <h3 class="card-title h4">Базовый</h3>
+              <div class="my-4">
+                <span class="display-5 fw-bold">490₽</span>
+                <span class="text-muted">/мес</span>
+              </div>
+              <ul class="list-unstyled mb-4">
+                <li class="mb-2">10 шаблонов</li>
+                <li class="mb-2">Базовые документы</li>
+                <li class="mb-2">Email-поддержка</li>
+              </ul>
+              <button class="btn btn-outline-primary w-100">Выбрать</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in-section">
+          <div class="card pricing-card recommended h-100">
+            <div class="recommended-badge">Рекомендуем</div>
+            <div class="card-body text-center p-4">
+              <h3 class="card-title h4">Стандарт</h3>
+              <div class="my-4">
+                <span class="display-5 fw-bold">990₽</span>
+                <span class="text-muted">/мес</span>
+              </div>
+              <ul class="list-unstyled mb-4">
+                <li class="mb-2">30+ шаблонов</li>
+                <li class="mb-2">Все основные документы</li>
+                <li class="mb-2">Чат-поддержка</li>
+              </ul>
+              <button class="btn btn-primary w-100">Выбрать</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in-section">
+          <div class="card pricing-card h-100">
+            <div class="card-body text-center p-4">
+              <h3 class="card-title h4">Премиум</h3>
+              <div class="my-4">
+                <span class="display-5 fw-bold">1490₽</span>
+                <span class="text-muted">/мес</span>
+              </div>
+              <ul class="list-unstyled mb-4">
+                <li class="mb-2">Все шаблоны</li>
+                <li class="mb-2">Персональные доработки</li>
+                <li class="mb-2">Приоритетная поддержка</li>
+              </ul>
+              <button class="btn btn-outline-primary w-100">Выбрать</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA-блок -->
+  <section class="py-5 text-white" style="background: var(--bs-gradient);">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center fade-in-section">
+          <h2 class="display-6 fw-bold mb-4">Запустите бизнес без юридических рисков уже сегодня!</h2>
+          <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            <button class="btn btn-light btn-lg px-4 me-sm-3 fw-bold">Начать бесплатно</button>
+            <button class="btn btn-outline-light btn-lg px-4">Заказать консультацию</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Футер -->
+  <footer class="bg-dark text-white py-5">
+    <div class="container py-4">
+      <div class="row">
+        <div class="col-lg-3 mb-4 fade-in-section">
+          <h5 class="fw-bold mb-3">DogovorIP</h5>
+          <p>Юридические решения для IT-бизнеса</p>
+        </div>
+        <div class="col-lg-3 mb-4 fade-in-section">
+          <h5 class="fw-bold mb-3">Разделы</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#" class="text-white-50">Шаблоны</a></li>
+            <li class="mb-2"><a href="#" class="text-white-50">Тарифы</a></li>
+            <li class="mb-2"><a href="#" class="text-white-50">Блог</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 mb-4 fade-in-section">
+          <h5 class="fw-bold mb-3">Поддержка</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#" class="text-white-50">Контакты</a></li>
+            <li class="mb-2"><a href="#" class="text-white-50">FAQ</a></li>
+            <li class="mb-2"><a href="#" class="text-white-50">Документы</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 mb-4 fade-in-section">
+          <h5 class="fw-bold mb-3">Контакты</h5>
+          <p class="text-white-50">info@dogovorip.ru<br>+7 (123) 456-78-90</p>
+        </div>
+      </div>
+      <hr class="my-4">
+      <div class="text-center">
+        <p class="mb-0">© 2025 DogovorIP. Все права защищены.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Скрипты -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Анимация при скролле
+    document.addEventListener('DOMContentLoaded', function() {
+      // Убираем старую анимацию
+      const animatedElements = document.querySelectorAll('.animate__animated');
+      animatedElements.forEach(el => {
+        el.classList.remove('animate__animated', 'animate__fadeInUp', 'animate__delay-1s', 'animate__delay-2s');
+      });
+
+      // Новая анимация плавного появления
+      const fadeInElements = document.querySelectorAll('.fade-in-section');
+
+      const fadeInOnScroll = function() {
+        fadeInElements.forEach(element => {
+          const elementTop = element.getBoundingClientRect().top;
+          const elementBottom = element.getBoundingClientRect().bottom;
+          const windowHeight = window.innerHeight;
+
+          // Проверяем, находится ли элемент в области видимости
+          if ((elementTop < windowHeight - 100) && (elementBottom > 0)) {
+            element.classList.add('is-visible');
+          }
+        });
+      };
+
+      // Запускаем при загрузке и при скролле
+      window.addEventListener('scroll', fadeInOnScroll);
+      window.addEventListener('resize', fadeInOnScroll);
+      fadeInOnScroll(); // Инициализация при загрузке
+    });
+
+    // Для кнопки админа (пример функционала)
+    document.querySelector('.btn-admin').addEventListener('click', function() {
+      // Здесь можно добавить логику входа для админа
+      alert('Вход в админ-панель. Здесь будет форма авторизации.');
+    });
+  </script>
+</body>
+</html>
