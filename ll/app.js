@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 // Кнопка "Бесплатная консультация"
 document.querySelector('.consult-btn').addEventListener('click', () => {
   gsap.to(this, {
