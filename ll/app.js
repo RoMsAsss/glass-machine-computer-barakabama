@@ -1,32 +1,24 @@
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-// Кнопка "Бесплатная консультация"
-document.querySelector('.consult-btn').addEventListener('click', () => {
-  gsap.to(this, {
-    scale: 0.95,
-    repeat: 1,
-    yoyo: true,
-    duration: 0.3
+// Анимация кнопок
+document.querySelectorAll('.btn').forEach(btn => {
+  btn.addEventListener('mouseenter', () => {
+    gsap.to(btn, { scale: 1.05, duration: 0.3 });
   });
-  openModal('consultation');
-});
-
-// Кнопки тарифов
-document.querySelectorAll('.pricing-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const plan = btn.dataset.plan;
-    window.location.href = `/checkout?plan=${plan}`;
+  
+  btn.addEventListener('mouseleave', () => {
+    gsap.to(btn, { scale: 1, duration: 0.3 });
   });
 });
 
-// Плавный скролл
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    e.preventDefault();
-    gsap.to(window, {
-      scrollTo: document.querySelector(this.getAttribute('href')),
-      duration: 1,
-      ease: "power2.inOut"
-    });
+// Анимация карточек при прокрутке
+gsap.utils.toArray('.fade-in-section').forEach(section => {
+  gsap.from(section, {
+    opacity: 0,
+    y: 50,
+    duration: 0.8,
+    scrollTrigger: {
+      trigger: section,
+      start: "top 80%",
+      toggleActions: "play none none none"
+    }
   });
 });
