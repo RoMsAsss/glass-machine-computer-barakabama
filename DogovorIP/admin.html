@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админ-панель</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    .bg-purple {
+      background-color: #6f42c1;
+    }
+    .btn-purple {
+      background-color: #6f42c1;
+      color: white;
+    }
+    .history-item {
+      border-left: 3px solid #0d6efd;
+      padding-left: 10px;
+      margin-bottom: 10px;
+    }
+    .empty-placeholder {
+      color: #6c757d;
+      font-style: italic;
+    }
+    .wheel-section-item {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+    .wheel-color-picker {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Навигация админ-панели -->
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <span class="navbar-brand">
+        👑 Панель управления | Привет, <span id="adminNameDisplay"></span>!
+      </span>
+      <button id="logoutBtn" class="btn btn-outline-light">Выйти</button>
+    </div>
+  </nav>
+
+  <div class="container py-5">
+    <div class="row">
+      <!-- Блок управления пользователями -->
+      <div class="col-md-12 mb-4">
+        <div class="card shadow">
+          <div class="card-header bg-info text-white">
+            <h5>👥 Управление пользователями</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Статус</th>
+                    <th>Подписка</th>
+                    <th>Действия</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTable">
+                  <!-- Пользователи будут загружены здесь -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Форма изменения подписки -->
+            <div class="mt-4">
+              <h5>Изменить подписку</h5>
+              <form id="updateSubscriptionForm">
+                <input type="hidden" id="editUserId">
+                <div class="row">
+                  <div class="col-md-4 mb-3">
+                    <select class="form-control" id="subscriptionType" required>
+                      <option value="">Выберите подписку</option>
+                      <option value="basic">Базовый</option>
+                      <option value="standard">Стандарт</option>
+                      <option value="premium">Премиум</option>
+                      <option value="none">Без подписки</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <input type="date" class="form-control" id="subscriptionExpiry">
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <button type="submit" class="btn btn-primary w-100">Обновить</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- В существующий контейнер в admin.html добавим: -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow">
+          <div class="card-header bg-info text-white">
+            <h5>📄 Управление шаблонами</h5>
+          </div>
+          <div class="card-body">
+            <ul class="nav nav-tabs mb-3" id="templatesTabs">
+              <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="tab" href="#freeTemplates">Бесплатные</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#premiumTemplates">Премиум</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#uploadTemplate">Загрузить</a>
+              </li>
+            </ul>
+
+            <div class="tab-content">
+              <!-- Бесплатные шаблоны -->
+              <div class="tab-pane fade show active" id="freeTemplates">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Название</th>
+                        <th>Дата</th>
+                        <th>Действия</th>
+                      </tr>
+                    </thead>
+                    <tbody id="freeTemplatesList">
+                      <!-- Заполнится скриптом -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Премиум шаблоны -->
+              <div class="tab-pane fade" id="premiumTemplates">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Название</th>
+                        <th>Категория</th>
+                        <th>Дата</th>
+                        <th>Действия</th>
+                      </tr>
+                    </thead>
+                    <tbody id="premiumTemplatesList">
+                      <!-- Заполнится скриптом -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Форма загрузки -->
+              <div class="tab-pane fade" id="uploadTemplate">
+                <form id="uploadTemplateForm">
+                  <div class="mb-3">
+                    <label class="form-label">Название шаблона</label>
+                    <input type="text" class="form-control" required>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Описание</label>
+                    <textarea class="form-control" rows="3"></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Категория</label>
+                    <select class="form-control" id="templateCategory">
+                      <option value="free">Бесплатный</option>
+                      <option value="contracts">Договоры</option>
+                      <option value="policies">Политики</option>
+                      <option value="offers">Оферты</option>
+                      <option value="nda">NDA</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Файл шаблона (DOCX/PDF)</label>
+                    <input type="file" class="form-control" id="templateFile" accept=".docx,.pdf" required>
+                  </div>
+                  <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="addWatermark" checked>
+                    <label class="form-check-label" for="addWatermark">Добавить водяной знак</label>
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100">Загрузить</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- История изменений -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow">
+          <div class="card-header bg-secondary text-white">
+            <h5>🕒 История изменений</h5>
+          </div>
+          <div class="card-body" id="historyContainer">
+            <div class="empty-placeholder">Здесь пока нет записей</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Блок добавления новостей -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow">
+          <div class="card-header bg-success text-white">
+            <h5>✏️ Добавить новость</h5>
+          </div>
+          <div class="card-body">
+            <form id="addBlogPostForm">
+              <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Заголовок" required>
+              </div>
+              <div class="mb-3">
+                <textarea class="form-control" placeholder="Текст новости" rows="3" required></textarea>
+              </div>
+              <div class="mb-3">
+                <input type="file" class="form-control" id="blogImage" accept="image/*">
+              </div>
+              <div class="mb-3">
+                <label>Дата публикации</label>
+                <input type="datetime-local" class="form-control" id="publishDate">
+              </div>
+              <button type="submit" class="btn btn-success w-100">Опубликовать</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Блок управления отзывами -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h5>🌟 Управление отзывами</h5>
+          </div>
+          <div class="card-body">
+            <form id="addReviewForm">
+              <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Имя автора" required>
+              </div>
+              <div class="mb-3">
+                <select class="form-control" required>
+                  <option value="" disabled selected>Оценка</option>
+                  <option value="5">★★★★★</option>
+                  <option value="4">★★★★☆</option>
+                  <option value="3">★★★☆☆</option>
+                  <option value="2">★★☆☆☆</option>
+                  <option value="1">★☆☆☆☆</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <textarea class="form-control" placeholder="Текст отзыва" rows="3" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Добавить отзыв</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Модерация отзывов -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow">
+          <div class="card-header bg-warning">
+            <h5>⏳ Модерация отзывов</h5>
+          </div>
+          <div class="card-body" id="moderationContainer">
+            <div class="empty-placeholder">Нет отзывов для модерации</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Блок вопросов-ответов -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow">
+          <div class="card-header bg-warning">
+            <h5>❓ Управление вопросами-ответами</h5>
+          </div>
+          <div class="card-body">
+            <form id="addFaqForm">
+              <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Вопрос" required>
+              </div>
+              <div class="mb-3">
+                <textarea class="form-control" placeholder="Ответ" rows="3" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-warning w-100">Добавить вопрос</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Управление колесом фортуны -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow">
+          <div class="card-header bg-purple text-white">
+            <h5>🎡 Управление колесом фортуны</h5>
+          </div>
+          <div class="card-body">
+            <div id="wheelSectionsContainer">
+              <!-- Секции колеса будут здесь -->
+            </div>
+            <button class="btn btn-sm btn-primary mt-3" id="addWheelSection">+ Добавить секцию</button>
+            <div class="mt-3">
+              <label>Количество секций:</label>
+              <input type="number" id="wheelSectionsCount" class="form-control" min="2" max="12" value="6">
+            </div>
+            <button class="btn btn-purple w-100 mt-3" id="saveWheelSettings">Сохранить настройки</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Блок управления админами -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow">
+          <div class="card-header bg-danger text-white">
+            <h5>👥 Управление администраторами</h5>
+          </div>
+          <div class="card-body">
+            <form id="addAdminForm">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <input type="text" class="form-control" placeholder="Имя администратора" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <input type="password" class="form-control" placeholder="Пароль" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-danger w-100">Добавить</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+    // Проверка авторизации
+    if (!localStorage.getItem('adminAuth') || localStorage.getItem('adminAuth') !== 'admin@dogovorip.ru') {
+      window.location.href = 'login.html';
+    } else {
+      document.getElementById('adminNameDisplay').textContent = 'Администратор';
+    }
+
+    // Обработчик выхода
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      localStorage.removeItem('adminAuth');
+      window.location.href = 'index.html';
+    });
+
+    // Обновление статистики
+    function updateStats() {
+      const today = new Date().toLocaleDateString();
+      let stats = JSON.parse(localStorage.getItem('siteStats')) || {
+        visits: {},
+        totalUsers: 0,
+        history: []
+      };
+
+      stats.visits[today] = (stats.visits[today] || 0) + 1;
+      localStorage.setItem('siteStats', JSON.stringify(stats));
+
+      document.getElementById('visitsToday').textContent = stats.visits[today];
+      document.getElementById('totalUsers').textContent = stats.totalUsers + Math.floor(Math.random() * 10);
+
+      // Загрузка истории
+      const historyContainer = document.getElementById('historyContainer');
+      if (stats.history.length > 0) {
+        historyContainer.innerHTML = '';
+        stats.history.forEach(item => {
+          const historyItem = document.createElement('div');
+          historyItem.className = 'history-item';
+          historyItem.innerHTML = `
+            <strong>${item.action}</strong>
+            <div class="text-muted small">${new Date(item.date).toLocaleString()}</div>
+            <div>${item.details || ''}</div>
+          `;
+          historyContainer.appendChild(historyItem);
+        });
+      }
+    }
+
+    // Добавление записи в историю
+    function addHistory(action, details = '') {
+      let stats = JSON.parse(localStorage.getItem('siteStats')) || {
+        visits: {},
+        totalUsers: 0,
+        history: []
+      };
+
+      stats.history.unshift({
+        action,
+        details,
+        date: new Date().toISOString()
+      });
+
+      // Ограничиваем историю 50 последними записями
+      stats.history = stats.history.slice(0, 50);
+      localStorage.setItem('siteStats', JSON.stringify(stats));
+      updateStats();
+    }
+
+    // Добавление новости в блог
+    document.getElementById('addBlogPostForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const title = this.querySelector('input').value;
+      const content = this.querySelector('textarea').value;
+      const publishDate = document.getElementById('publishDate').value;
+      const imageFile = document.getElementById('blogImage').files[0];
+
+      let blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
+      const newPost = {
+        id: Date.now(),
+        title,
+        content,
+        date: new Date().toISOString(),
+        publishDate: publishDate || new Date().toISOString()
+      };
+
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          newPost.image = e.target.result;
+          blogPosts.push(newPost);
+          localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+          addHistory('Добавлена новость в блог', title);
+          alert('Новость добавлена!');
+          e.target.form.reset();
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        blogPosts.push(newPost);
+        localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+        addHistory('Добавлена новость в блог', title);
+        alert('Новость добавлена!');
+        this.reset();
+      }
+    });
+
+    // Добавление отзыва
+    document.getElementById('addReviewForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const author = this.querySelector('input').value;
+      const rating = this.querySelector('select').value;
+      const text = this.querySelector('textarea').value;
+
+      let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+      reviews.push({ author, rating: parseInt(rating), text, date: new Date().toISOString() });
+      localStorage.setItem('reviews', JSON.stringify(reviews));
+
+      addHistory('Добавлен отзыв', `От ${author}, оценка: ${rating}`);
+      alert('Отзыв добавлен!');
+      this.reset();
+    });
+
+    // Добавление вопроса-ответа
+    document.getElementById('addFaqForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const question = this.querySelector('input').value;
+      const answer = this.querySelector('textarea').value;
+
+      let faqItems = JSON.parse(localStorage.getItem('faq')) || [];
+      faqItems.push({ question, answer });
+      localStorage.setItem('faq', JSON.stringify(faqItems));
+
+      addHistory('Добавлен вопрос-ответ', question);
+      alert('Вопрос добавлен!');
+      this.reset();
+    });
+
+    // Добавление администратора
+    document.getElementById('addAdminForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = this.querySelectorAll('input')[0].value;
+      const password = this.querySelectorAll('input')[1].value;
+
+      let admins = JSON.parse(localStorage.getItem('admins')) || {};
+      admins[name] = password;
+      localStorage.setItem('admins', JSON.stringify(admins));
+
+      addHistory('Добавлен администратор', name);
+      alert('Администратор добавлен!');
+      this.reset();
+    });
+
+    // Управление колесом фортуны
+    function loadWheelSettings() {
+      const settings = JSON.parse(localStorage.getItem('wheelSettings')) || {
+        sections: [
+          { text: "10% скидка", color: "#FF6384", chance: 20, promo: "WHEEL10" },
+          { text: "15% скидка", color: "#36A2EB", chance: 15, promo: "WHEEL15" },
+          { text: "20% скидка", color: "#FFCE56", chance: 10, promo: "WHEEL20" },
+          { text: "3 дня бесплатно", color: "#4BC0C0", chance: 5, promo: "FREE3DAYS" },
+          { text: "Бесплатный шаблон", color: "#9966FF", chance: 10, promo: "FREEDOC" },
+          { text: "Попробуйте еще", color: "#FF9F40", chance: 40, promo: "TRYAGAIN" }
+        ]
+      };
+
+      renderWheelSections(settings.sections);
+      document.getElementById('wheelSectionsCount').value = settings.sections.length;
+    }
+
+    function renderWheelSections(sections) {
+      const container = document.getElementById('wheelSectionsContainer');
+      container.innerHTML = '';
+
+      sections.forEach((section, index) => {
+        const sectionElement = document.createElement('div');
+        sectionElement.className = 'wheel-section-item';
+        sectionElement.innerHTML = `
+          <input type="color" class="wheel-color-picker" value="${section.color}" data-index="${index}">
+          <input type="text" class="form-control me-2" placeholder="Название приза" value="${section.text}" data-index="${index}">
+          <input type="number" class="form-control me-2" placeholder="Шанс (%)" min="1" max="100" value="${section.chance}" data-index="${index}">
+          <input type="text" class="form-control" placeholder="Промокод" value="${section.promo}" data-index="${index}">
+        `;
+        container.appendChild(sectionElement);
+      });
+    }
+
+    function saveWheelSettings() {
+      const sectionsCount = parseInt(document.getElementById('wheelSectionsCount').value);
+      const inputs = document.querySelectorAll('#wheelSectionsContainer input');
+      const sections = [];
+
+      // Группируем данные по индексам
+      const sectionsData = {};
+      inputs.forEach(input => {
+        const index = input.dataset.index;
+        if (!sectionsData[index]) sectionsData[index] = {};
+
+        if (input.type === 'color') {
+          sectionsData[index].color = input.value;
+        } else if (input.placeholder === 'Название приза') {
+          sectionsData[index].text = input.value;
+        } else if (input.placeholder === 'Шанс (%)') {
+          sectionsData[index].chance = parseInt(input.value) || 10;
+        } else if (input.placeholder === 'Промокод') {
+          sectionsData[index].promo = input.value;
+        }
+      });
+
+      // Преобразуем в массив и нормализуем шансы
+      let totalChance = 0;
+      for (let i = 0; i < sectionsCount; i++) {
+        if (sectionsData[i]) {
+          sections.push(sectionsData[i]);
+          totalChance += sectionsData[i].chance || 0;
+        }
+      }
+
+      // Нормализация шансов
+      sections.forEach(section => {
+        section.chance = Math.round((section.chance / totalChance) * 100);
+      });
+
+      fetch('/api/wheel', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sections })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Settings saved:', data);
+        addHistory('Изменены настройки колеса фортуны');
+      })
+      .catch(error => {
+        console.error('Error saving settings:', error);
+      });
+      addHistory('Изменены настройки колеса фортуны');
+      alert('Настройки колеса сохранены!');
+    }
+
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    // Обработчики событий
+    document.getElementById('addWheelSection').addEventListener('click', function() {
+      const count = parseInt(document.getElementById('wheelSectionsCount').value);
+      document.getElementById('wheelSectionsCount').value = count + 1;
+    });
+
+    document.getElementById('wheelSectionsCount').addEventListener('change', function() {
+      const count = parseInt(this.value);
+      const currentCount = document.querySelectorAll('.wheel-section-item').length;
+
+      if (count < 2) this.value = 2;
+      if (count > 12) this.value = 12;
+
+      if (count > currentCount) {
+        // Добавляем недостающие секции
+        const sections = JSON.parse(localStorage.getItem('wheelSettings'))?.sections || [];
+        while (sections.length < count) {
+          sections.push({
+            text: `Приз ${sections.length + 1}`,
+            color: getRandomColor(),
+            chance: Math.floor(100 / count),
+            promo: `PRIZE${sections.length + 1}`
+          });
+        }
+        renderWheelSections(sections);
+      } else if (count < currentCount) {
+        // Удаляем лишние секции
+        const container = document.getElementById('wheelSectionsContainer');
+        while (container.children.length > count) {
+          container.removeChild(container.lastChild);
+        }
+      }
+    });
+
+    document.getElementById('saveWheelSettings').addEventListener('click', saveWheelSettings);
+
+    // Модерация отзывов
+    function loadReviewsForModeration() {
+      const pendingReviews = JSON.parse(localStorage.getItem('pendingReviews')) || [];
+      const container = document.getElementById('moderationContainer');
+
+      if (pendingReviews.length === 0) {
+        container.innerHTML = '<div class="empty-placeholder">Нет отзывов для модерации</div>';
+        return;
+      }
+
+      container.innerHTML = '';
+      pendingReviews.forEach((review, index) => {
+        const reviewElement = document.createElement('div');
+        reviewElement.className = 'mb-3 p-3 border rounded';
+        reviewElement.innerHTML = `
+          <h6>${review.author}</h6>
+          <div class="mb-2">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
+          <p>${review.text}</p>
+          <small class="text-muted d-block mb-2">${new Date(review.date).toLocaleString()}</small>
+          <div>
+            <button class="btn btn-sm btn-success me-2 approve-review" data-index="${index}">Одобрить</button>
+            <button class="btn btn-sm btn-danger reject-review" data-index="${index}">Отклонить</button>
+          </div>
+        `;
+        container.appendChild(reviewElement);
+      });
+
+      // Обработчики кнопок
+      document.querySelectorAll('.approve-review').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const index = parseInt(this.dataset.index);
+          const pendingReviews = JSON.parse(localStorage.getItem('pendingReviews')) || [];
+          const approvedReviews = JSON.parse(localStorage.getItem('approvedReviews')) || [];
+
+          approvedReviews.push(pendingReviews[index]);
+          pendingReviews.splice(index, 1);
+
+          localStorage.setItem('pendingReviews', JSON.stringify(pendingReviews));
+          localStorage.setItem('approvedReviews', JSON.stringify(approvedReviews));
+
+          addHistory('Одобрен отзыв', `От ${approvedReviews[approvedReviews.length - 1].author}`);
+          loadReviewsForModeration();
+        });
+      });
+
+      document.querySelectorAll('.reject-review').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const index = parseInt(this.dataset.index);
+          const pendingReviews = JSON.parse(localStorage.getItem('pendingReviews')) || [];
+          const rejectedReview = pendingReviews[index];
+
+          pendingReviews.splice(index, 1);
+          localStorage.setItem('pendingReviews', JSON.stringify(pendingReviews));
+
+          addHistory('Отклонен отзыв', `От ${rejectedReview.author}`);
+          loadReviewsForModeration();
+        });
+      });
+    }
+
+    // Инициализация
+    updateStats();
+    addHistory('Вход в админ-панель');
+    loadWheelSettings();
+    loadReviewsForModeration();
+
+    // Создаем админа по умолчанию, если его нет
+    if (!localStorage.getItem('admins')) {
+      localStorage.setItem('admins', JSON.stringify({
+        "admin": "123",
+        "manager": "password"
+      }));
+    }
+
+    // Функция загрузки пользователей
+    function loadUsers() {
+      fetch('/api/users')
+        .then(response => response.json())
+        .then(users => {
+          const table = document.getElementById('usersTable');
+          table.innerHTML = '';
+
+          if (users.length === 0) {
+            table.innerHTML = '<tr><td colspan="5" class="text-center">Нет пользователей</td></tr>';
+            return;
+          }
+
+          users.forEach(user => {
+            const row = document.createElement('tr');
+
+            // Определяем статус подписки
+            let subscriptionStatus = 'Нет подписки';
+            let subscriptionClass = 'text-danger';
+
+            if (user.subscription_type) {
+              const expiryDate = user.subscription_expiry ? new Date(user.subscription_expiry) : null;
+              const today = new Date();
+
+              if (expiryDate && expiryDate < today) {
+                subscriptionStatus = `Истекла (${user.subscription_type})`;
+                subscriptionClass = 'text-warning';
+              } else if (user.subscription_type === 'admin') {
+                subscriptionStatus = 'Администратор';
+                subscriptionClass = 'text-success';
+              } else {
+                subscriptionStatus = `${user.subscription_type} до ${expiryDate ? expiryDate.toLocaleDateString() : 'не указано'}`;
+                subscriptionClass = 'text-success';
+              }
+            }
+
+            row.innerHTML = `
+              <td>${user.id}</td>
+              <td>${user.email}</td>
+              <td>${user.verified ? 'Подтвержден' : 'Не подтвержден'}</td>
+              <td class="${subscriptionClass}">${subscriptionStatus}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-primary edit-user" data-id="${user.id}">Изменить</button>
+              </td>
+            `;
+            table.appendChild(row);
+          });
+
+          // Обработчики кнопок редактирования
+          document.querySelectorAll('.edit-user').forEach(btn => {
+            btn.addEventListener('click', function() {
+              const userId = this.dataset.id;
+              const user = users.find(u => u.id == userId);
+
+              document.getElementById('editUserId').value = user.id;
+              document.getElementById('subscriptionType').value = user.subscription_type || '';
+              document.getElementById('subscriptionExpiry').value = user.subscription_expiry || '';
+            });
+          });
+        })
+        .catch(error => {
+          console.error('Ошибка загрузки пользователей:', error);
+        });
+    }
+
+    // Обработчик формы обновления подписки
+    document.getElementById('updateSubscriptionForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const userId = document.getElementById('editUserId').value;
+      const subscriptionType = document.getElementById('subscriptionType').value;
+      const expiryDate = document.getElementById('subscriptionExpiry').value;
+
+      fetch('/api/users/update-subscription', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          subscriptionType: subscriptionType === 'none' ? null : subscriptionType,
+          expiryDate
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Подписка обновлена!');
+          loadUsers();
+          this.reset();
+        } else {
+          alert('Ошибка обновления подписки: ' + (data.message || ''));
+        }
+      })
+      .catch(error => {
+        console.error('Ошибка:', error);
+        alert('Произошла ошибка при обновлении подписки');
+      });
+    });
+
+    // Инициализация - добавьте в конец существующего скрипта
+    loadUsers();
+
+          async function loadTemplates() {
+        try {
+          const [freeRes, premiumRes] = await Promise.all([
+            fetch('/api/templates?isFree=true'),
+            fetch('/api/templates?isFree=false')
+          ]);
+
+          const freeData = await freeRes.json();
+          const premiumData = await premiumRes.json();
+
+          renderTemplates(freeData.templates, 'freeTemplatesList');
+          renderTemplates(premiumData.templates, 'premiumTemplatesList');
+        } catch (error) {
+          console.error('Error loading templates:', error);
+          alert('Ошибка загрузки шаблонов');
+        }
+      }
+
+      function renderTemplates(templates, containerId) {
+        const container = document.getElementById(containerId);
+
+        if (templates.length === 0) {
+          container.innerHTML = '<tr><td colspan="3" class="text-center">Нет шаблонов</td></tr>';
+          return;
+        }
+
+        container.innerHTML = '';
+
+        templates.forEach(template => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${template.name}</td>
+            <td>${template.category}</td>
+            <td>${new Date(template.createdAt).toLocaleDateString()}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary preview-template" data-id="${template.id}">
+                <i class="bi bi-eye"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger delete-template" data-id="${template.id}">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          `;
+          container.appendChild(row);
+        });
+
+        // Обработчики предпросмотра
+        document.querySelectorAll('.preview-template').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const templateId = this.dataset.id;
+            previewTemplate(templateId);
+          });
+        });
+
+        // Обработчики удаления
+        document.querySelectorAll('.delete-template').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const templateId = this.dataset.id;
+            if (confirm('Удалить этот шаблон?')) {
+              deleteTemplate(templateId);
+            }
+          });
+        });
+      }
+
+      async function previewTemplate(templateId) {
+        try {
+          const response = await fetch(`/api/templates/${templateId}`);
+          const template = await response.json();
+
+          window.open(`/templates/${template.filename}`, '_blank');
+        } catch (error) {
+          console.error('Error previewing template:', error);
+          alert('Ошибка открытия предпросмотра');
+        }
+      }
+
+      async function deleteTemplate(templateId) {
+        try {
+          const response = await fetch(`/api/templates/${templateId}`, { method: 'DELETE' });
+          const result = await response.json();
+
+          if (result.success) {
+            alert('Шаблон удален');
+            loadTemplates();
+            addHistory('Удален шаблон', `ID: ${templateId}`);
+          } else {
+            alert('Ошибка удаления шаблона');
+          }
+        } catch (error) {
+          console.error('Error deleting template:', error);
+          alert('Ошибка удаления шаблона');
+        }
+      }
+
+      // Обработчик формы загрузки
+      document.getElementById('uploadTemplateForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('name', this.querySelector('input[type="text"]').value);
+        formData.append('description', this.querySelector('textarea').value);
+        formData.append('category', document.getElementById('templateCategory').value);
+        formData.append('addWatermark', document.getElementById('addWatermark').checked);
+        formData.append('templateFile', document.getElementById('templateFile').files[0]);
+
+        try {
+          const response = await fetch('/api/templates/upload', {
+            method: 'POST',
+            body: formData
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            alert('Шаблон успешно загружен');
+            this.reset();
+            loadTemplates();
+            addHistory('Загружен новый шаблон', result.template.name);
+          } else {
+            alert('Ошибка загрузки шаблона: ' + (result.error || ''));
+          }
+        } catch (error) {
+          console.error('Error uploading template:', error);
+          alert('Ошибка загрузки шаблона');
+        }
+      });
+
+      // Инициализация
+      loadTemplates();
+    });
+  </script>
+</body>
+</html>

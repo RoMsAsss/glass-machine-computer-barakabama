@@ -1,0 +1,1305 @@
+  <!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dogovor IP | Юридические решения для IT</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bs-gradient: linear-gradient(135deg, #3B82F6 0%, #F97316 100%);
+      --bs-gradient-reverse: linear-gradient(135deg, #F97316 0%, #3B82F6 100%);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      overflow-x: hidden;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, #121212 0%, #1a1a2e 100%);
+      color: white;
+      padding: 8rem 0 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
+      animation: pulse 8s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.8); opacity: 0.5; }
+      50% { transform: scale(1.2); opacity: 0.2; }
+      100% { transform: scale(0.8); opacity: 0.5; }
+    }
+
+    .logo-container {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      margin-right: 15px;
+      perspective: 1000px;
+    }
+
+    .logo-animated {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: logoFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0) rotateY(0); }
+      50% { transform: translateY(-5px) rotateY(10deg); }
+    }
+
+    .logo-circle {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--bs-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.5);
+    }
+
+    .logo-inner {
+      position: absolute;
+      width: 70%;
+      height: 70%;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+      transform: translateZ(10px);
+      overflow: hidden;
+    }
+
+    .logo-inner img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .navbar {
+      background: rgba(18, 18, 18, 0.9) !important;
+      backdrop-filter: blur(10px);
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      padding: 8px 15px !important;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .btn-gradient {
+      background: var(--bs-gradient);
+      border: none;
+      color: white;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-gradient:hover {
+      background: var(--bs-gradient-reverse);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      height: 100%;
+      transition: all 0.3s ease;
+      border: none;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: #3B82F6;
+    }
+
+    .template-card {
+      transition: all 0.3s ease;
+      border: none;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 1;
+      background: white;
+    }
+
+    .template-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(249,115,22,0.1) 100%);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .template-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    .template-card:hover::before {
+      opacity: 1;
+    }
+
+    .template-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--bs-gradient);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+      margin-bottom: 2rem;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 50px;
+      height: 4px;
+      background: var(--bs-gradient);
+      border-radius: 2px;
+    }
+
+    .cta-section {
+      background: var(--bs-gradient);
+      color: white;
+      padding: 5rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    }
+
+    .footer {
+      background: #121212;
+      color: white;
+      padding: 4rem 0 2rem;
+    }
+
+    .footer-links h5 {
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .footer-links h5::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 30px;
+      height: 3px;
+      background: var(--bs-gradient);
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .footer-links a:hover {
+      color: white;
+      transform: translateX(5px);
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      margin-right: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+      background: var(--bs-gradient);
+      transform: translateY(-3px);
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bs-gradient);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin-right: 10px;
+    }
+
+    .dropdown-menu {
+      border: none;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .dropdown-item {
+      border-radius: 5px;
+      padding: 8px 15px;
+      font-weight: 500;
+    }
+
+    .dropdown-divider {
+      border-color: rgba(0,0,0,0.05);
+    }
+
+    .pricing-card {
+      border: none;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+    .pricing-header {
+      background: var(--bs-gradient);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .recommended .pricing-header {
+      background: var(--bs-gradient-reverse);
+    }
+
+    .pricing-price {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .pricing-features {
+      padding: 20px;
+    }
+
+    .pricing-features li {
+      margin-bottom: 10px;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    .pricing-features li::before {
+      content: '\F26E';
+      font-family: bootstrap-icons;
+      position: absolute;
+      left: 0;
+      color: #3B82F6;
+    }
+
+    .recommended-badge {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: #F97316;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+    }
+
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="rgba(59,130,246,0.1)" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="rgba(59,130,246,0.1)" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="rgba(59,130,246,0.1)"/></svg>');
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: particleFloat linear infinite;
+    }
+
+    @keyframes particleFloat {
+      to { transform: translateY(-100vh); }
+    }
+
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-in-section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Стили для модального окна */
+    .modal-content {
+      border: none;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      background: var(--bs-gradient);
+      color: white;
+      border-bottom: none;
+    }
+
+    .btn-close-white {
+      filter: brightness(0) invert(1);
+    }
+
+    /* Стили для формы */
+    .form-control {
+      border-radius: 8px;
+      padding: 12px 15px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .form-control:focus {
+      border-color: #3B82F6;
+      box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+    }
+
+    /* Анимации */
+    .animate-delay-1 {
+      animation-delay: 0.3s;
+    }
+
+    .animate-delay-2 {
+      animation-delay: 0.6s;
+    }
+
+    .animate-delay-3 {
+      animation-delay: 0.9s;
+    }
+  </style>
+</head>
+<body>
+  <!-- Продвинутый прелоадер с 3D-эффектами -->
+  <div class="loading" id="preloader">
+    <!-- Частицы для фона -->
+    <div class="particles-container">
+      <div class="particle particle-1"></div>
+      <div class="particle particle-2"></div>
+      <div class="particle particle-3"></div>
+      <div class="particle particle-4"></div>
+      <div class="particle particle-5"></div>
+      <div class="particle particle-6"></div>
+    </div>
+
+    <!-- Контурные линии -->
+    <div class="tech-lines">
+      <div class="line line-1"></div>
+      <div class="line line-2"></div>
+      <div class="line line-3"></div>
+      <div class="line line-4"></div>
+    </div>
+
+    <!-- Основное содержимое -->
+    <div class="loading-content">
+      <div class="loading-logo-container">
+        <img src="logo.jpg" alt="DogovorIP Логотип" class="loading-logo">
+        <div class="loading-logo-glow"></div>
+        <div class="loading-logo-particles">
+          <div class="logo-particle"></div>
+          <div class="logo-particle"></div>
+          <div class="logo-particle"></div>
+        </div>
+      </div>
+
+      <div class="loading-text-container">
+        <h1 class="loading-title">Dogovor<span class="loading-title-highlight">IP</span></h1>
+        <p class="loading-subtitle">Шаблоны договоров для IT нового поколения</p>
+      </div>
+
+      <div class="loading-progress-container">
+        <div class="loading-progress-bar">
+          <div class="loading-progress-fill" id="loadingProgress"></div>
+          <div class="progress-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+        <div class="loading-progress-text" id="loadingText">Запуск системы...</div>
+      </div>
+
+      <div class="loading-legal-notice">
+        <div class="loading-seal">
+          <svg viewBox="0 0 100 100" class="seal-svg">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#0d6efd" stroke-width="2"/>
+            <path d="M30,50 Q50,30 70,50 Q50,70 30,50" fill="none" stroke="#0d6efd" stroke-width="2"/>
+            <text x="50" y="52" text-anchor="middle" font-size="12" fill="#0d6efd">ЗАЩИТА</text>
+          </svg>
+        </div>
+        <p class="loading-copyright">© 2025 DogovorIP. Все права защищены.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Навигация -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <div class="logo-container">
+          <div class="logo-animated">
+            <div class="logo-circle">
+              <div class="logo-inner">
+                <img src="logo.jpg" alt="Логотип">
+              </div>
+            </div>
+          </div>
+        </div>
+        DogovorIP
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#features">Возможности</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#templates">Шаблоны</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#pricing">Тарифы</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#faq">FAQ</a>
+          </li>
+        </ul>
+        <div class="d-flex align-items-center">
+          <div id="userNav" class="d-none">
+            <div class="dropdown">
+              <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <span id="userEmail"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="lk-demo.html">Личный кабинет</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" id="logoutBtn">Выйти</a></li>
+              </ul>
+            </div>
+          </div>
+          <button class="btn btn-outline-light me-2" id="loginBtn">
+            <i class="bi bi-person"></i> Войти
+          </button>
+          <button class="btn btn-gradient" data-bs-toggle="modal" data-bs-target="#consultationModal">
+            <i class="bi bi-chat-square-text me-2"></i>Консультация
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero-блок -->
+  <section class="hero-section">
+    <div class="particles" id="particles"></div>
+    <div class="wave"></div>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <h1 class="display-4 fw-bold mb-4 animate__animated animate__fadeInDown">Профессиональные шаблоны договоров для IT</h1>
+          <p class="lead mb-5 animate__animated animate__fadeIn animate__delay-1s">Создавайте юридические документы в 3 раза быстрее с нашими проверенными шаблонами</p>
+          <div class="d-flex gap-3 animate__animated animate__fadeInUp animate__delay-2s">
+            <a href="#templates" class="btn btn-primary btn-lg px-4">Выбрать шаблон</a>
+            <a href="none1.html" class="btn btn-outline-light btn-lg px-4">Бесплатные шаблоны</a>
+          </div>
+        </div>
+        <div class="col-lg-6 animate__animated animate__fadeIn animate__delay-1s">
+          <img src="https://cdn-icons-png.flaticon.com/512/3767/3767084.png" alt="Документы" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Блок возможностей -->
+  <section class="py-5" id="features">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="section-title">Наши преимущества</h2>
+        <p class="text-muted">Почему выбирают именно нас</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4 fade-in-section">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <h3>Юридическая надежность</h3>
+            <p class="text-muted">Все шаблоны проверены IT-юристами и соответствуют актуальному законодательству</p>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in-section">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-lightning"></i>
+            </div>
+            <h3>Быстрое оформление</h3>
+            <p class="text-muted">Создавайте документы за минуты вместо часов работы с юристом</p>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in-section">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="bi bi-cash-coin"></i>
+            </div>
+            <h3>Экономия бюджета</h3>
+            <p class="text-muted">Сэкономьте до 25 000₽ на услугах юристов с нашими шаблонами</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Популярные шаблоны -->
+  <section class="py-5 bg-light" id="templates">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="section-title">Популярные шаблоны</h2>
+        <p class="text-muted">Выберите подходящий документ для вашего бизнеса</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4 fade-in-section">
+          <div class="template-card p-4 text-center h-100">
+            <span class="template-badge">Бесплатно</span>
+            <i class="bi bi-file-earmark-text feature-icon"></i>
+            <h3>Договор разработки ПО</h3>
+            <p class="text-muted">Для фрилансеров и IT-студий</p>
+            <a href="none1.html#template1" class="btn btn-gradient w-100">Редактировать</a>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in-section">
+          <div class="template-card p-4 text-center h-100">
+            <span class="template-badge">Бесплатно</span>
+            <i class="bi bi-file-earmark-lock feature-icon"></i>
+            <h3>Политика конфиденциальности</h3>
+            <p class="text-muted">Для сайтов и мобильных приложений</p>
+            <a href="none1.html#template2" class="btn btn-gradient w-100">Редактировать</a>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in-section">
+          <div class="template-card p-4 text-center h-100">
+            <span class="template-badge">Бесплатно</span>
+            <i class="bi bi-file-earmark-medical feature-icon"></i>
+            <h3>Оферта для онлайн-курсов</h3>
+            <p class="text-muted">Для инфобизнеса и образования</p>
+            <a href="none1.html#template3" class="btn btn-gradient w-100">Редактировать</a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-5">
+        <a href="none1.html" class="btn btn-outline-primary">Все бесплатные шаблоны</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Как это работает -->
+  <section class="py-5">
+    <div class="container py-5">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <img src="https://cdn-icons-png.flaticon.com/512/3059/3059518.png" alt="Процесс работы" class="img-fluid">
+        </div>
+        <div class="col-lg-6">
+          <h2 class="section-title mb-4">Как это работает?</h2>
+          <div class="d-flex mb-4">
+            <div class="me-4">
+              <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                <span class="fs-5">1</span>
+              </div>
+            </div>
+            <div>
+              <h4>Выберите шаблон</h4>
+              <p class="text-muted">Подберите документ, соответствующий вашим потребностям</p>
+            </div>
+          </div>
+          <div class="d-flex mb-4">
+            <div class="me-4">
+              <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                <span class="fs-5">2</span>
+              </div>
+            </div>
+            <div>
+              <h4>Заполните поля</h4>
+              <p class="text-muted">Введите необходимые данные в интуитивно понятном редакторе</p>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="me-4">
+              <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                <span class="fs-5">3</span>
+              </div>
+            </div>
+            <div>
+              <h4>Скачайте документ</h4>
+              <p class="text-muted">Получите готовый документ в формате PDF или DOCX</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Тарифы -->
+  <section class="py-5 bg-light" id="pricing">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="section-title">Наши тарифы</h2>
+        <p class="text-muted">Выберите подходящий план для вашего бизнеса</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4 fade-in-section">
+          <div class="pricing-card h-100">
+            <div class="pricing-header">
+              <h3>Базовый</h3>
+              <div class="pricing-price my-3">490₽<span class="fs-6">/мес</span></div>
+              <p>Для начинающих предпринимателей</p>
+            </div>
+            <div class="pricing-features">
+              <ul class="list-unstyled">
+                <li>10 шаблонов документов</li>
+                <li>Базовые юридические документы</li>
+                <li>Email поддержка</li>
+                <li>Обновления 1 раз в месяц</li>
+              </ul>
+              <button class="btn btn-outline-primary w-100 mt-3">Выбрать</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in-section">
+          <div class="pricing-card h-100 recommended">
+            <div class="recommended-badge">Рекомендуем</div>
+            <div class="pricing-header">
+              <h3>Стандарт</h3>
+              <div class="pricing-price my-3">990₽<span class="fs-6">/мес</span></div>
+              <p>Для малого и среднего бизнеса</p>
+            </div>
+            <div class="pricing-features">
+              <ul class="list-unstyled">
+                <li>30+ шаблонов документов</li>
+                <li>Все основные юридические документы</li>
+                <li>Чат поддержка</li>
+                <li>Обновления 1 раз в неделю</li>
+                <li>Доступ к новым шаблонам</li>
+              </ul>
+              <button class="btn btn-primary w-100 mt-3">Выбрать</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in-section">
+          <div class="pricing-card h-100">
+            <div class="pricing-header">
+              <h3>Премиум</h3>
+              <div class="pricing-price my-3">1 490₽<span class="fs-6">/мес</span></div>
+              <p>Для крупных проектов и агентств</p>
+            </div>
+            <div class="pricing-features">
+              <ul class="list-unstyled">
+                <li>Все шаблоны документов</li>
+                <li>Расширенные юридические документы</li>
+                <li>Приоритетная поддержка</li>
+                <li>Ежедневные обновления</li>
+                <li>Персональные доработки</li>
+                <li>Доступ к бета-функциям</li>
+              </ul>
+              <button class="btn btn-outline-primary w-100 mt-3">Выбрать</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Отзывы -->
+  <section class="py-5">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="section-title">Отзывы клиентов</h2>
+        <p class="text-muted">Что говорят о нас наши пользователи</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4 fade-in-section">
+          <div class="feature-card">
+            <div class="d-flex align-items-center mb-3">
+              <div class="user-avatar me-3">A</div>
+              <div>
+                <h5 class="mb-0">Алексей К.</h5>
+                <small class="text-muted">Фрилансер</small>
+              </div>
+            </div>
+            <p class="text-muted">"Сэкономил кучу времени и денег на юристах. Шаблоны действительно качественные и актуальные."</p>
+            <div class="text-warning">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in-section">
+          <div class="feature-card">
+            <div class="d-flex align-items-center mb-3">
+              <div class="user-avatar me-3">E</div>
+              <div>
+                <h5 class="mb-0">Елена С.</h5>
+                <small class="text-muted">Стартап</small>
+              </div>
+            </div>
+            <p class="text-muted">"Очень удобный сервис, все необходимые документы в одном месте. Особенно понравился редактор."</p>
+            <div class="text-warning">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 fade-in-section">
+          <div class="feature-card">
+            <div class="d-flex align-items-center mb-3">
+              <div class="user-avatar me-3">M</div>
+              <div>
+                <h5 class="mb-0">Михаил П.</h5>
+                <small class="text-muted">IT-агентство</small>
+              </div>
+            </div>
+            <p class="text-muted">"Используем шаблоны для всех наших клиентов. Качество на уровне дорогих юристов, а цена в разы ниже."</p>
+            <div class="text-warning">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-half"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-5 bg-light" id="faq">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="section-title">Частые вопросы</h2>
+        <p class="text-muted">Ответы на самые популярные вопросы</p>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <div class="accordion" id="faqAccordion">
+            <div class="feature-card mb-3">
+              <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                  <button class="btn btn-link w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                    Как часто обновляются шаблоны?
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseOne" class="collapse show" data-bs-parent="#faqAccordion">
+                <div class="card-body">
+                  Мы регулярно обновляем наши шаблоны в соответствии с изменениями законодательства. Премиум-пользователи получают обновления ежедневно, стандартные - раз в неделю, базовые - раз в месяц.
+                </div>
+              </div>
+            </div>
+            <div class="feature-card mb-3">
+              <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                  <button class="btn btn-link w-100 text-start collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                    Можно ли редактировать скачанные документы?
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseTwo" class="collapse" data-bs-parent="#faqAccordion">
+                <div class="card-body">
+                  Да, все документы доступны для редактирования. Вы можете скачать их в формате DOCX и вносить любые изменения в соответствии с вашими потребностями.
+                </div>
+              </div>
+            </div>
+            <div class="feature-card mb-3">
+              <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                  <button class="btn btn-link w-100 text-start collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                    Есть ли бесплатные шаблоны?
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseThree" class="collapse" data-bs-parent="#faqAccordion">
+                <div class="card-body">
+                  Да, мы предлагаем несколько базовых шаблонов совершенно бесплатно. Вы можете найти их в разделе "Бесплатные шаблоны".
+                </div>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="card-header" id="headingFour">
+                <h5 class="mb-0">
+                  <button class="btn btn-link w-100 text-start collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                    Как отменить подписку?
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseFour" class="collapse" data-bs-parent="#faqAccordion">
+                <div class="card-body">
+                  Вы можете отменить подписку в любое время в личном кабинете. После отмены у вас останется доступ до конца оплаченного периода.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container text-center">
+      <h2 class="display-5 fw-bold mb-4">Готовы начать работу?</h2>
+      <p class="lead mb-5">Создайте свой первый документ прямо сейчас</p>
+      <div class="d-flex gap-3 justify-content-center">
+        <a href="none1.html" class="btn btn-light btn-lg px-4">Бесплатные шаблоны</a>
+        <a href="#pricing" class="btn btn-outline-light btn-lg px-4">Выбрать тариф</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Футер -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <div class="logo-container">
+              <div class="logo-animated">
+                <div class="logo-circle">
+                  <div class="logo-inner">
+                    <img src="logo.jpg" alt="Логотип">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h4 class="mb-0">DogovorIP</h4>
+          </div>
+          <p>Профессиональные юридические решения для IT-бизнеса и фрилансеров.</p>
+          <div class="social-links">
+            <a href="#"><i class="bi bi-telegram"></i></a>
+            <a href="#"><i class="bi bi-whatsapp"></i></a>
+            <a href="#"><i class="bi bi-vk"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 mb-4">
+          <div class="footer-links">
+            <h5>Разделы</h5>
+            <a href="#features">Возможности</a>
+            <a href="#templates">Шаблоны</a>
+            <a href="#pricing">Тарифы</a>
+            <a href="#faq">FAQ</a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 mb-4">
+          <div class="footer-links">
+            <h5>Ресурсы</h5>
+            <a href="none1.html">Бесплатные шаблоны</a>
+            <a href="lk-demo.html">Личный кабинет</a>
+            <a href="#">Блог</a>
+            <a href="#">Отзывы</a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 mb-4">
+          <div class="footer-links">
+            <h5>Поддержка</h5>
+            <a href="#">Контакты</a>
+            <a href="#">Документация</a>
+            <a href="#">Политика конфиденциальности</a>
+            <a href="#">Условия использования</a>
+          </div>
+        </div>
+        <div class="col-lg-2 mb-4">
+          <div class="footer-links">
+            <h5>Контакты</h5>
+            <p><i class="bi bi-envelope me-2"></i> info@dogovorip.ru</p>
+            <p><i class="bi bi-phone me-2"></i> +7 (123) 456-78-90</p>
+          </div>
+        </div>
+      </div>
+      <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+      <div class="text-center">
+        <p class="mb-0">© 2025 DogovorIP. Все права защищены.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Модальное окно консультации -->
+  <div class="modal fade" id="consultationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Заказать консультацию</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="consultationForm">
+            <div class="mb-3">
+              <label class="form-label">Ваше имя</label>
+              <input type="text" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Телефон</label>
+              <input type="tel" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Ваш вопрос</label>
+              <textarea class="form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Отправить запрос</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Скрипты -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script>
+    // Инициализация частиц фона
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 30;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+
+        const size = Math.random() * 5 + 2;
+        const posX = Math.random() * 100;
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * -20;
+
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.bottom = `-${size}px`;
+        particle.style.opacity = Math.random() * 0.5 + 0.1;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `${delay}s`;
+
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Проверка авторизации
+    function checkAuthState() {
+      const userData = localStorage.getItem('currentUser');
+      if (userData) {
+        currentUser = JSON.parse(userData);
+        updateUIForLoggedInUser();
+      } else {
+        updateUIForGuest();
+      }
+    }
+
+    function updateUIForLoggedInUser() {
+      const userNav = document.getElementById('userNav');
+      const loginBtn = document.getElementById('loginBtn');
+
+      if (userNav) userNav.classList.remove('d-none');
+      if (loginBtn) loginBtn.classList.add('d-none');
+
+      if (currentUser && currentUser.email) {
+        const userEmail = document.getElementById('userEmail');
+        const userAvatar = document.getElementById('userAvatar');
+        if (userEmail) userEmail.textContent = currentUser.email;
+        if (userAvatar) userAvatar.textContent = currentUser.email.charAt(0).toUpperCase();
+      }
+    }
+
+    function updateUIForGuest() {
+      const userNav = document.getElementById('userNav');
+      const loginBtn = document.getElementById('loginBtn');
+
+      if (userNav) userNav.classList.add('d-none');
+      if (loginBtn) loginBtn.classList.remove('d-none');
+    }
+
+    // Анимации при прокрутке
+    const fadeElements = document.querySelectorAll('.fade-in-section');
+    function checkVisibility() {
+      fadeElements.forEach(element => {
+        const rect = element.getBoundingClientRect();
+        const isVisible = (rect.top <= window.innerHeight * 0.75) && (rect.bottom >= 0);
+
+        if (isVisible) {
+          element.classList.add('is-visible');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', checkVisibility);
+    window.addEventListener('load', checkVisibility);
+
+    // Инициализация при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+      createParticles();
+      checkAuthState();
+      checkVisibility();
+
+      // Анимация навигации
+      gsap.from(".navbar", {
+        y: -50,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.out"
+      });
+
+      // Анимация hero-секции
+      gsap.from(".hero-section h1", {
+        y: 30,
+        opacity: 0,
+        duration: 1,
+        delay: 0.3,
+        ease: "power2.out"
+      });
+
+      gsap.from(".hero-section p", {
+        y: 30,
+        opacity: 0,
+        duration: 1,
+        delay: 0.6,
+        ease: "power2.out"
+      });
+
+      gsap.from(".hero-section .btn", {
+        y: 30,
+        opacity: 0,
+        duration: 1,
+        delay: 0.9,
+        ease: "power2.out",
+        stagger: 0.1
+      });
+
+      gsap.from(".hero-section img", {
+        x: 30,
+        opacity: 0,
+        duration: 1,
+        delay: 0.9,
+        ease: "power2.out"
+      });
+
+      // Обработчик для кнопки выхода
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+          localStorage.removeItem('currentUser');
+          currentUser = null;
+          updateUIForGuest();
+        });
+      }
+
+      // Обработчик для формы консультации
+      const consultationForm = document.getElementById('consultationForm');
+      if (consultationForm) {
+        consultationForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const modal = bootstrap.Modal.getInstance(document.getElementById('consultationModal'));
+          if (modal) modal.hide();
+          alert('Ваш запрос отправлен! Мы свяжемся с вами в ближайшее время.');
+        });
+      }
+    });
+
+    // Продвинутая анимация загрузки (завершается по готовности анимации)
+    document.addEventListener('DOMContentLoaded', function() {
+      const loadingProgress = document.getElementById('loadingProgress');
+      const loadingText = document.getElementById('loadingText');
+      const messages = [
+        { text: "Запуск системы...", emoji: "⚡" },
+        { text: "Загрузка модулей...", emoji: "📦" },
+        { text: "Проверка безопасности...", emoji: "🔒" },
+        { text: "Оптимизация данных...", emoji: "🧠" },
+        { text: "Подготовка интерфейса...", emoji: "✨" },
+        { text: "Готово! Перенаправление...", emoji: "🚀" }
+      ];
+
+      let progress = 0;
+      let messageIndex = 0;
+      const animationDuration = 5000; // Общая продолжительность анимации (5 сек)
+
+      // Функция завершения загрузки
+      const completeLoading = () => {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+          // Анимация исчезновения
+          preloader.style.opacity = '1';
+          preloader.style.transition = 'opacity 0.8s ease-out';
+
+          // Запускаем анимацию исчезновения
+          setTimeout(() => {
+            preloader.style.opacity = '0';
+          }, 100);
+
+          // Удаляем после анимации
+          setTimeout(() => {
+            preloader.style.display = 'none';
+          }, 900);
+        }
+      };
+
+      // Анимация прогресса с GSAP для плавности
+      gsap.to(loadingProgress, {
+        width: "100%",
+        duration: animationDuration / 1000, // конвертируем в секунды
+        ease: "power2.inOut",
+        onComplete: completeLoading
+      });
+
+      // Обновление сообщений
+      const updateMessage = (index) => {
+        messageIndex = index;
+        loadingText.innerHTML = `${messages[index].emoji} ${messages[index].text}`;
+
+        // Анимация смены текста
+        loadingText.style.animation = 'none';
+        loadingText.offsetHeight; // Trigger reflow
+        loadingText.style.animation = 'textGlow 0.5s ease-out';
+      };
+
+      // Начальное сообщение
+      loadingText.innerHTML = `${messages[0].emoji} ${messages[0].text}`;
+
+      // Запланированное обновление сообщений
+      const messageIntervals = [
+        { time: 800, index: 1 },
+        { time: 1600, index: 2 },
+        { time: 2400, index: 3 },
+        { time: 3200, index: 4 },
+        { time: 4000, index: 5 }
+      ];
+
+      messageIntervals.forEach(({time, index}) => {
+        setTimeout(() => updateMessage(index), time);
+      });
+
+      // Дополнительные эффекты при наведении
+      const logo = document.querySelector('.loading-logo');
+      if (logo) {
+        logo.addEventListener('mouseover', () => {
+          logo.style.transform = 'rotateY(20deg) scale(1.1)';
+          logo.style.boxShadow = '0 0 60px rgba(13, 110, 253, 0.8)';
+        });
+
+        logo.addEventListener('mouseout', () => {
+          logo.style.transform = '';
+          logo.style.boxShadow = '';
+        });
+      }
+    });
+  </script>
+</body>
+</html>

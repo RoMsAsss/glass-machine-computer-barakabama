@@ -1,0 +1,217 @@
+<section id="pricing" class="py-5">
+  <div class="container">
+    <h2 class="section-title animate__animated animate__fadeIn">Наши тарифы</h2>
+    <div class="pricing-cards">
+      <!-- Стартовый тариф -->
+      <div class="pricing-card animate__animated animate__fadeInLeft">
+        <div class="pricing-card-header">
+          <h3>Стартовый</h3>
+          <div class="pricing-badge">Для начинающих</div>
+        </div>
+        <div class="price">
+          <div class="original-price">1 240₽</div>
+          990₽ <span>/месяц</span>
+        </div>
+        <ul class="pricing-features">
+          <li><i class="bi bi-check-circle-fill text-success"></i> 5 шаблонов документов</li>
+          <li><i class="bi bi-check-circle-fill text-success"></i> Базовые функции</li>
+          <li><i class="bi bi-check-circle-fill text-success"></i> Email поддержка</li>
+          <li><i class="bi bi-x-circle-fill text-muted"></i> Расширенные шаблоны</li>
+          <li><i class="bi bi-x-circle-fill text-muted"></i> Приоритетная поддержка</li>
+        </ul>
+        <a href="#" class="btn btn-outline-primary btn-lg w-100 mt-3">Выбрать</a>
+      </div>
+
+      <!-- Бизнес тариф -->
+      <div class="pricing-card animate__animated animate__fadeInUp featured">
+        <div class="pricing-card-header">
+          <h3>Бизнес</h3>
+          <div class="pricing-badge popular">Самый популярный</div>
+        </div>
+        <div class="price">
+          <div class="original-price">3 740₽</div>
+          2 990₽ <span>/месяц</span>
+        </div>
+        <ul class="pricing-features">
+          <li><i class="bi bi-check-circle-fill text-success"></i> Все шаблоны документов</li>
+          <li><i class="bi bi-check-circle-fill text-success"></i> Расширенные функции</li>
+          <li><i class="bi bi-check-circle-fill text-success"></i> Приоритетная поддержка</li>
+          <li><i class="bi bi-check-circle-fill text-success"></i> Экспорт в PDF/DOCX</li>
+          <li><i class="bi bi-x-circle-fill text-muted"></i> Персональный менеджер</li>
+        </ul>
+        <a href="#" class="btn btn-gradient btn-lg w-100 mt-3">Выбрать</a>
+      </div>
+
+      <!-- Премиум тариф -->
+      <div class="pricing-card animate__animated animate__fadeInRight">
+        <div class="pricing-card-header">
+          <h3>Премиум</h3>
+          <div class="pricing-badge premium">Для профессионалов</div>
+        </div>
+        <div class="price">
+          <div class="original-price">7 490₽</div>
+          5 990₽ <span>/месяц</span>
+        </div>
+        <ul class="pricing-features">
+          <li><i class="bi bi-check-circle-fill text-success"></i> Все шаблоны + кастомизация</li>
+          <li><i class="bi bi-check-circle-fill text-success"></i> Персональный менеджер</li>
+          <li><i class="bi bi-check-circle-fill text-success"></i> Юридическая консультация</li>
+          <li><i class="bi bi-check-circle-fill text-success"></i> Приоритетные обновления</li>
+          <li><i class="bi bi-check-circle-fill text-success"></i> API доступ</li>
+        </ul>
+        <a href="#" class="btn btn-outline-primary btn-lg w-100 mt-3">Выбрать</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Стили для улучшенной секции тарифов */
+  .pricing-card {
+    position: relative;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 350px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(59, 130, 246, 0.1);
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+
+  .pricing-card.featured {
+    border: 1px solid rgba(251, 146, 60, 0.3);
+    box-shadow: 0 5px 30px rgba(251, 146, 60, 0.2);
+    transform: translateY(-10px);
+  }
+
+  .pricing-card-header {
+    position: relative;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .pricing-card h3 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: #3B82F6;
+  }
+
+  .pricing-card.featured h3 {
+    color: #F97316;
+  }
+
+  .pricing-badge {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background: #3B82F6;
+    color: white;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    transform: rotate(15deg);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .pricing-badge.popular {
+    background: #F97316;
+    transform: rotate(15deg);
+  }
+
+  .pricing-badge.premium {
+    background: linear-gradient(45deg, #9d00ff, #001aff);
+    transform: rotate(15deg);
+  }
+
+  .price {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 1.5rem 0;
+    text-align: center;
+    color: white;
+    position: relative;
+  }
+
+  .price span {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: normal;
+  }
+
+  .original-price {
+    position: absolute;
+    top: -20px;
+    right: 0;
+    left: 0;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: line-through;
+    font-size: 1.2rem;
+    font-weight: 600;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+
+  .pricing-card:hover .original-price {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+  }
+
+  .pricing-features li {
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .pricing-features li i {
+    margin-right: 0.7rem;
+    font-size: 1.1rem;
+  }
+
+  /* Анимация для цен */
+  @keyframes pricePulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  .pricing-card:hover .price {
+    animation: pricePulse 0.5s ease;
+    color: #F97316;
+  }
+
+  .pricing-card.featured:hover .price {
+    color: #3B82F6;
+  }
+
+  /* Градиентная рамка для featured карточки */
+  .pricing-card.featured::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff0000, #9d00ff, #001aff);
+    z-index: -1;
+    border-radius: 22px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .pricing-card.featured:hover::before {
+    opacity: 1;
+  }
+</style>

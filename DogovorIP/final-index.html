@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DogovorIP | Меню</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    /* Базовые стили */
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0e17 0%, #121826 100%);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+      transition: opacity 0.8s ease-out;
+      overflow: hidden;
+    }
+
+    /* Анимированный фон с частицами */
+    .particles-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(13, 110, 253, 0.1);
+      box-shadow: 0 0 20px rgba(13, 110, 253, 0.3);
+      animation: float 15s infinite linear;
+    }
+
+    .particle-1 {
+      width: 300px;
+      height: 300px;
+      top: -150px;
+      left: -150px;
+      animation-delay: 0s;
+      animation-duration: 25s;
+    }
+
+    .particle-2 {
+      width: 200px;
+      height: 200px;
+      top: 20%;
+      right: -100px;
+      animation-delay: 2s;
+      animation-duration: 20s;
+    }
+
+    .particle-3 {
+      width: 150px;
+      height: 150px;
+      bottom: -75px;
+      left: 30%;
+      animation-delay: 4s;
+      animation-duration: 18s;
+    }
+
+    .particle-4 {
+      width: 250px;
+      height: 250px;
+      top: 60%;
+      right: -125px;
+      animation-delay: 1s;
+      animation-duration: 22s;
+    }
+
+    .particle-5 {
+      width: 180px;
+      height: 180px;
+      bottom: -90px;
+      right: 25%;
+      animation-delay: 3s;
+      animation-duration: 17s;
+    }
+
+    .particle-6 {
+      width: 220px;
+      height: 220px;
+      top: -110px;
+      right: 15%;
+      animation-delay: 5s;
+      animation-duration: 19s;
+    }
+
+    /* Технологичные линии */
+    .tech-lines {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .line {
+      position: absolute;
+      background: linear-gradient(90deg, transparent, rgba(13, 110, 253, 0.2), transparent);
+      height: 1px;
+      animation: lineFlow 10s infinite linear;
+    }
+
+    .line-1 {
+      top: 20%;
+      width: 100%;
+      animation-delay: 0s;
+    }
+
+    .line-2 {
+      top: 45%;
+      width: 80%;
+      left: 10%;
+      animation-delay: 2s;
+      animation-direction: reverse;
+    }
+
+    .line-3 {
+      top: 70%;
+      width: 60%;
+      left: 20%;
+      animation-delay: 4s;
+    }
+
+    .line-4 {
+      top: 90%;
+      width: 40%;
+      left: 30%;
+      animation-delay: 6s;
+      animation-direction: reverse;
+    }
+
+    /* Основное содержимое */
+    .loading-content {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 500px;
+      padding: 2rem;
+      z-index: 10;
+    }
+
+    .loading-logo-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin-bottom: 2.5rem;
+      perspective: 1000px;
+    }
+
+    .loading-logo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid rgba(13, 110, 253, 0.4);
+      box-shadow: 0 0 40px rgba(13, 110, 253, 0.4);
+      transform-style: preserve-3d;
+      animation: logo3d 8s infinite ease-in-out;
+      filter: grayscale(10%) contrast(110%) brightness(1.1);
+      z-index: 2;
+      position: relative;
+    }
+
+    .loading-logo-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, rgba(13, 110, 253, 0.3) 0%, transparent 70%);
+      animation: glowPulse 3s infinite alternate;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    .loading-logo-particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    .logo-particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #0d6efd;
+      border-radius: 50%;
+      filter: blur(1px);
+      animation: orbit 6s infinite linear;
+    }
+
+    .logo-particle:nth-child(1) {
+      top: 10px;
+      left: 50%;
+      animation-delay: 0s;
+    }
+
+    .logo-particle:nth-child(2) {
+      top: 50%;
+      right: 10px;
+      animation-delay: 2s;
+    }
+
+    .logo-particle:nth-child(3) {
+      bottom: 10px;
+      left: 50%;
+      animation-delay: 4s;
+    }
+
+    .loading-text-container {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .loading-title {
+      font-size: 3.8rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 20px rgba(13, 110, 253, 0.7);
+      position: relative;
+      display: inline-block;
+    }
+
+    .loading-title-highlight {
+      color: #0d6efd;
+      position: relative;
+      display: inline-block;
+    }
+
+    .loading-title-highlight::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border: 2px solid rgba(13, 110, 253, 0.5);
+      border-radius: 50%;
+      animation: highlightPulse 2s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    .loading-title-highlight::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #0d6efd, transparent);
+      animation: lineExpand 2.5s infinite;
+      transform-origin: center;
+    }
+
+    .loading-subtitle {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      animation: subtitleFloat 5s infinite ease-in-out;
+      text-shadow: 0 1px 10px rgba(13, 110, 253, 0.4);
+      position: relative;
+    }
+
+    .loading-subtitle::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 25%;
+      width: 50%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(13, 110, 253, 0.5), transparent);
+      animation: subtitleLine 3s infinite;
+    }
+
+    .loading-progress-container {
+      width: 100%;
+      max-width: 350px;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .loading-progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 0.8rem;
+      box-shadow: 0 1px 10px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .loading-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #0d6efd, #6f42c1);
+      border-radius: 3px;
+      transition: width 0.4s ease;
+      position: relative;
+      box-shadow: 0 0 15px rgba(13, 110, 253, 0.6);
+    }
+
+    .loading-progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+      animation: loadingShine 2.5s infinite;
+    }
+
+    .progress-dots {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.3;
+      transform: scale(0);
+      animation: dotPulse 2s infinite;
+    }
+
+    .dot:nth-child(1) { animation-delay: 0.3s; }
+    .dot:nth-child(2) { animation-delay: 0.6s; }
+    .dot:nth-child(3) { animation-delay: 0.9s; }
+
+    .loading-progress-text {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+      letter-spacing: 1.5px;
+      text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+      animation: textGlow 2s infinite alternate;
+    }
+
+    .loading-legal-notice {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2rem;
+      position: relative;
+    }
+
+    .loading-seal {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1.2rem;
+      animation: sealRotate 12s infinite linear;
+      filter: drop-shadow(0 0 8px rgba(13, 110, 253, 0.7));
+    }
+
+    .loading-copyright {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    /* Анимации */
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(50px, 30px) rotate(5deg); }
+      50% { transform: translate(100px, 0) rotate(0deg); }
+      75% { transform: translate(50px, -30px) rotate(-5deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    @keyframes lineFlow {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    @keyframes logo3d {
+      0%, 100% { transform: rotateY(0deg) rotateX(0deg) scale(1); }
+      25% { transform: rotateY(15deg) rotateX(5deg) scale(1.05); }
+      50% { transform: rotateY(0deg) rotateX(10deg) scale(1.03); }
+      75% { transform: rotateY(-15deg) rotateX(5deg) scale(1.05); }
+    }
+
+    @keyframes glowPulse {
+      0% { opacity: 0.5; transform: scale(0.95); }
+      100% { opacity: 0.8; transform: scale(1.05); }
+    }
+
+    @keyframes orbit {
+      0% { transform: rotate(0deg) translateX(70px) rotate(0deg); }
+      100% { transform: rotate(360deg) translateX(70px) rotate(-360deg); }
+    }
+
+    @keyframes highlightPulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.1); opacity: 0.3; }
+    }
+
+    @keyframes lineExpand {
+      0% { transform: scaleX(0); opacity: 0; }
+      50% { transform: scaleX(1); opacity: 1; }
+      100% { transform: scaleX(0); opacity: 0; }
+    }
+
+    @keyframes subtitleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @keyframes subtitleLine {
+      0%, 100% { transform: scaleX(0); opacity: 0; }
+      50% { transform: scaleX(1); opacity: 1; }
+    }
+
+    @keyframes loadingShine {
+      0% { transform: translateX(-100%) skewX(-20deg); }
+      100% { transform: translateX(100%) skewX(-20deg); }
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1); opacity: 0.5; }
+    }
+
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 5px rgba(13, 110, 253, 0.3); }
+      100% { text-shadow: 0 0 10px rgba(13, 110, 253, 0.7); }
+    }
+
+    @keyframes sealRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .loading.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+  <style>
+    :root {
+      --main-gradient: linear-gradient(135deg, #3B82F6 0%, #F97316 100%);
+      --dark-bg: #1a1a2e;
+      --card-bg: rgba(30, 30, 46, 0.8);
+      --text-color: #e6e6e6;
+      --text-muted: #a1a1a1;
+    }
+
+    /* Анимация фона с шариками */
+    .particles {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      background: var(--dark-bg);
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.15);
+      animation: float 15s infinite linear;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+      50% { transform: translate(50px, -50px) rotate(180deg); opacity: 0.7; }
+      100% { transform: translate(0, 0) rotate(360deg); opacity: 1; }
+    }
+
+    /* Анимация при клике */
+    .click-effect {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(249, 115, 22, 0.6);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 100;
+      animation: ripple 1s ease-out forwards;
+    }
+
+    @keyframes ripple {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(10); opacity: 0; }
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-color);
+      min-height: 100vh;
+      cursor: default;
+    }
+
+    .hero {
+      background: var(--main-gradient);
+      color: white;
+      padding: 5rem 2rem 3rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      margin-top: 1rem;
+    }
+
+    .menu-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 4rem 2rem;
+      background: rgba(26, 26, 46, 0.7);
+      backdrop-filter: blur(5px);
+    }
+
+    .menu-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      padding: 2rem;
+      text-align: center;
+      width: 280px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    .menu-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .menu-card i {
+      font-size: 2.5rem;
+      color: #3B82F6;
+      margin-bottom: 1rem;
+    }
+
+    .menu-card h5 {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+
+    .menu-card p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .menu-card a {
+      margin-top: 1rem;
+      display: inline-block;
+      background: var(--main-gradient);
+      color: white;
+      padding: 0.6rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .menu-card a:hover {
+      opacity: 0.9;
+      box-shadow: 0 0 15px rgba(251, 146, 60, 0.5);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+      color: white;
+      background: var(--main-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 0 2rem 4rem;
+    }
+
+    .template-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    .template-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .template-card h4 {
+      color: #3B82F6;
+      margin-bottom: 0.5rem;
+    }
+
+    .template-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .pricing-cards {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      padding: 0 2rem 4rem;
+    }
+
+    .pricing-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      padding: 2rem;
+      width: 300px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .pricing-card h3 {
+      color: #3B82F6;
+      margin-bottom: 1rem;
+    }
+
+    .price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 1rem 0;
+      color: white;
+    }
+
+    .price span {
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    .reviews-section {
+      padding: 4rem 2rem;
+      background: rgba(26, 26, 46, 0.7);
+      backdrop-filter: blur(5px);
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .review-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      padding: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    .review-card .stars {
+      color: #F97316;
+      margin-bottom: 1rem;
+    }
+
+    .review-card p {
+      font-style: italic;
+      color: var(--text-muted);
+    }
+
+    .review-card .author {
+      font-weight: 600;
+      margin-top: 1rem;
+      color: white;
+    }
+
+    .blog-section {
+      padding: 4rem 2rem;
+      background: rgba(26, 26, 46, 0.7);
+      backdrop-filter: blur(5px);
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .blog-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .blog-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .blog-card-content {
+      padding: 1.5rem;
+    }
+
+    .blog-card h4 {
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+
+    .blog-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .blog-card a {
+      color: #3B82F6;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+
+    .login-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: white;
+      color: #3B82F6;
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .login-btn:hover {
+      background: #3B82F6;
+      color: white;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
+
+    footer {
+      background: rgba(20, 20, 40, 0.9);
+      color: var(--text-muted);
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    .glow-text {
+      text-shadow: 0 0 10px rgba(251, 146, 60, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <!-- Фон с шариками -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Продвинутый прелоадер с 3D-эффектами -->
+<div class="loading" id="preloader">
+  <!-- Частицы для фона -->
+  <div class="particles-container">
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+    <div class="particle particle-4"></div>
+    <div class="particle particle-5"></div>
+    <div class="particle particle-6"></div>
+  </div>
+
+  <!-- Контурные линии -->
+  <div class="tech-lines">
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+  </div>
+
+  <!-- Основное содержимое -->
+  <div class="loading-content">
+    <div class="loading-logo-container">
+      <img src="logo.jpg" alt="DogovorIP Логотип" class="loading-logo">
+      <div class="loading-logo-glow"></div>
+      <div class="loading-logo-particles">
+        <div class="logo-particle"></div>
+        <div class="logo-particle"></div>
+        <div class="logo-particle"></div>
+      </div>
+    </div>
+
+    <div class="loading-text-container">
+      <h1 class="loading-title">Dogovor<span class="loading-title-highlight">IP</span></h1>
+      <p class="loading-subtitle">Юридические технологии нового поколения</p>
+    </div>
+
+    <div class="loading-progress-container">
+      <div class="loading-progress-bar">
+        <div class="loading-progress-fill" id="loadingProgress"></div>
+        <div class="progress-dots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+      <div class="loading-progress-text" id="loadingText">Запуск системы...</div>
+    </div>
+
+    <div class="loading-legal-notice">
+      <div class="loading-seal">
+        <svg viewBox="0 0 100 100" class="seal-svg">
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#0d6efd" stroke-width="2"/>
+          <path d="M30,50 Q50,30 70,50 Q50,70 30,50" fill="none" stroke="#0d6efd" stroke-width="2"/>
+          <text x="50" y="52" text-anchor="middle" font-size="12" fill="#0d6efd">ЗАЩИТА</text>
+        </svg>
+      </div>
+      <p class="loading-copyright">© 2025 DogovorIP. Все права защищены.</p>
+    </div>
+  </div>
+</div>
+
+  <section class="hero">
+    <a href="lk-demo.html" class="login-btn animate__animated animate__fadeIn">
+      <i class="bi bi-person-circle"></i> Личный кабинет
+    </a>
+    <div class="container">
+      <h1 class="animate__animated animate__fadeInDown">Добро пожаловать в DogovorIP</h1>
+      <p class="animate__animated animate__fadeInUp animate__delay-1s glow-text">
+        Платформа автоматизации договоров для IT, Web3, фрилансеров и юристов.
+      </p>
+    </div>
+  </section>
+
+  <section class="menu-section">
+    <div class="menu-card animate__animated animate__fadeInLeft">
+      <i class="bi bi-file-earmark-text"></i>
+      <h5>Шаблоны</h5>
+      <p>Доступ к 30+ шаблонам договоров и документов.</p>
+      <a href="#templates">Выбрать шаблон</a>
+    </div>
+    <div class="menu-card animate__animated animate__fadeInUp">
+      <i class="bi bi-tags"></i>
+      <h5>Тарифы</h5>
+      <p>Гибкие планы: стартовый, бизнес и профессиональный.</p>
+      <a href="#pricing">Сравнить тарифы</a>
+    </div>
+    <div class="menu-card animate__animated animate__fadeInRight">
+      <i class="bi bi-stars"></i>
+      <h5>Отзывы</h5>
+      <p>Что говорят 230+ пользователей DogovorIP.</p>
+      <a href="#reviews">Читать отзывы</a>
+    </div>
+    <div class="menu-card animate__animated animate__fadeInLeft">
+      <i class="bi bi-chat-left-text"></i>
+      <h5>Блог</h5>
+      <p>Статьи по юридическим темам и шаблонам для IT.</p>
+      <a href="#blog">Открыть блог</a>
+    </div>
+  </section>
+
+  <section id="templates" class="py-5">
+    <div class="container">
+      <h2 class="section-title animate__animated animate__fadeIn">Шаблоны документов</h2>
+      <div class="templates-grid">
+        <div class="template-card animate__animated animate__fadeInUp">
+          <h4>Договор разработки ПО</h4>
+          <p>Стандартный договор на разработку программного обеспечения с учетом всех юридических нюансов.</p>
+        </div>
+        <div class="template-card animate__animated animate__fadeInUp animate__delay-1s">
+          <h4>NDA (Соглашение о конфиденциальности)</h4>
+          <p>Защитите свою интеллектуальную собственность перед началом сотрудничества.</p>
+        </div>
+        <div class="template-card animate__animated animate__fadeInUp animate__delay-2s">
+          <h4>Договор подряда</h4>
+          <p>Для фрилансеров и подрядчиков в IT-сфере с гибкими условиями.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="py-5">
+    <div class="container">
+      <h2 class="section-title animate__animated animate__fadeIn">Наши тарифы</h2>
+      <div class="pricing-cards">
+        <div class="pricing-card animate__animated animate__fadeInLeft">
+          <h3>Стартовый</h3>
+          <div class="price">990₽ <span>/месяц</span></div>
+          <p>5 шаблонов документов</p>
+          <p>Базовые функции</p>
+          <p>Email поддержка</p>
+          <a href="#" class="btn" style="background: var(--main-gradient); color: white; padding: 0.6rem 1.5rem; border-radius: 50px; text-decoration: none;">Выбрать</a>
+        </div>
+        <div class="pricing-card animate__animated animate__fadeInUp">
+          <h3>Бизнес</h3>
+          <div class="price">2990₽ <span>/месяц</span></div>
+          <p>Все шаблоны документов</p>
+          <p>Расширенные функции</p>
+          <p>Приоритетная поддержка</p>
+          <a href="#" class="btn" style="background: var(--main-gradient); color: white; padding: 0.6rem 1.5rem; border-radius: 50px; text-decoration: none;">Выбрать</a>
+        </div>
+        <div class="pricing-card animate__animated animate__fadeInRight">
+          <h3>Профессиональный</h3>
+          <div class="price">5990₽ <span>/месяц</span></div>
+          <p>Все шаблоны + кастомизация</p>
+          <p>Персональный менеджер</p>
+          <p>Юридическая консультация</p>
+          <a href="#" class="btn" style="background: var(--main-gradient); color: white; padding: 0.6rem 1.5rem; border-radius: 50px; text-decoration: none;">Выбрать</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews" class="reviews-section">
+    <div class="container">
+      <h2 class="section-title animate__animated animate__fadeIn">Отзывы клиентов</h2>
+      <div class="reviews-grid">
+        <div class="review-card animate__animated animate__fadeInLeft">
+          <div class="stars">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+          </div>
+          <p>"Сервис сэкономил мне десятки часов на составлении договоров. Теперь все документы в одном месте и всегда под рукой."</p>
+          <div class="author">- Алексей, веб-разработчик</div>
+        </div>
+        <div class="review-card animate__animated animate__fadeInUp">
+          <div class="stars">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+          </div>
+          <p>"Как фрилансер, я оценил удобство и юридическую грамотность шаблонов. Больше не нужно платить юристам за стандартные договоры."</p>
+          <div class="author">- Мария, графический дизайнер</div>
+        </div>
+        <div class="review-card animate__animated animate__fadeInRight">
+          <div class="stars">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+          <p>"Отличный сервис для стартапов. Помог нам быстро оформить отношения с первыми клиентами без лишних затрат."</p>
+          <div class="author">- Дмитрий, основатель стартапа</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="blog" class="blog-section">
+    <div class="container">
+      <h2 class="section-title animate__animated animate__fadeIn">Блог</h2>
+      <div class="blog-grid">
+        <div class="blog-card animate__animated animate__fadeInLeft">
+          <img src="https://source.unsplash.com/random/600x400/?contract" alt="Юридические аспекты">
+          <div class="blog-card-content">
+            <h4>Как правильно составить договор на разработку ПО</h4>
+            <p>Полное руководство по ключевым пунктам, которые защитят ваши интересы...</p>
+            <a href="#">Читать далее →</a>
+          </div>
+        </div>
+        <div class="blog-card animate__animated animate__fadeInUp">
+          <img src="https://source.unsplash.com/random/600x400/?law" alt="Юридические аспекты">
+          <div class="blog-card-content">
+            <h4>NDA: когда и зачем нужно соглашение о конфиденциальности</h4>
+            <p>Разбираем случаи, когда NDA действительно необходим, и как его правильно оформить...</p>
+            <a href="#">Читать далее →</a>
+          </div>
+        </div>
+        <div class="blog-card animate__animated animate__fadeInRight">
+          <img src="https://source.unsplash.com/random/600x400/?freelance" alt="Фриланс">
+          <div class="blog-card-content">
+            <h4>Фриланс без рисков: как защитить свои права</h4>
+            <p>Практические советы по работе с заказчиками и защите своих интересов...</p>
+            <a href="#">Читать далее →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 DogovorIP. Все права защищены.</p>
+      <p>
+        <a href="#contacts">Контакты</a> |
+        <a href="#privacy">Политика конфиденциальности</a> |
+        <a href="#terms">Условия использования</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Создаем шарики для фона
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 15;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+
+        // Случайные параметры
+        const size = Math.random() * 100 + 50;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 10;
+        const duration = Math.random() * 20 + 10;
+        const opacity = Math.random() * 0.3 + 0.1;
+
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.opacity = opacity;
+
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Анимация при клике
+    function createClickEffect(e) {
+      // Не срабатывает на кнопках и ссылках
+      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' ||
+          e.target.closest('button') || e.target.closest('a')) {
+        return;
+      }
+
+      const effect = document.createElement('div');
+      effect.className = 'click-effect';
+      effect.style.left = `${e.clientX}px`;
+      effect.style.top = `${e.clientY}px`;
+
+      document.body.appendChild(effect);
+
+      // Удаляем элемент после анимации
+      setTimeout(() => {
+        effect.remove();
+      }, 1000);
+    }
+
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', () => {
+      const preloader = document.getElementById('preloader');
+      if (preloader) preloader.style.display = 'none';
+
+      createParticles();
+
+      // Обработчик клика по документу
+      document.addEventListener('click', createClickEffect);
+    });
+  </script>
+  <script>
+      // Продвинутая анимация загрузки (завершается по готовности анимации)
+      document.addEventListener('DOMContentLoaded', function() {
+        const loadingProgress = document.getElementById('loadingProgress');
+        const loadingText = document.getElementById('loadingText');
+        const messages = [
+          { text: "Запуск системы...", emoji: "⚡" },
+          { text: "Загрузка модулей...", emoji: "📦" },
+          { text: "Проверка безопасности...", emoji: "🔒" },
+          { text: "Оптимизация данных...", emoji: "🧠" },
+          { text: "Подготовка интерфейса...", emoji: "✨" },
+          { text: "Готово! Перенаправление...", emoji: "🚀" }
+        ];
+
+        let progress = 0;
+        let messageIndex = 0;
+        const animationDuration = 5000; // Общая продолжительность анимации (5 сек)
+
+        // Функция завершения загрузки
+        const completeLoading = () => {
+          const preloader = document.getElementById('preloader');
+          if (preloader) {
+            // Анимация исчезновения
+            preloader.style.opacity = '1';
+            preloader.style.transition = 'opacity 0.8s ease-out';
+
+            // Запускаем анимацию исчезновения
+            setTimeout(() => {
+              preloader.style.opacity = '0';
+            }, 100);
+
+            // Удаляем после анимации
+            setTimeout(() => {
+              preloader.style.display = 'none';
+            }, 900);
+          }
+        };
+
+        // Анимация прогресса с GSAP для плавности
+        gsap.to(loadingProgress, {
+          width: "100%",
+          duration: animationDuration / 1000, // конвертируем в секунды
+          ease: "power2.inOut",
+          onComplete: completeLoading
+        });
+
+        // Обновление сообщений
+        const updateMessage = (index) => {
+          messageIndex = index;
+          loadingText.innerHTML = `${messages[index].emoji} ${messages[index].text}`;
+
+          // Анимация смены текста
+          loadingText.style.animation = 'none';
+          loadingText.offsetHeight; // Trigger reflow
+          loadingText.style.animation = 'textGlow 0.5s ease-out';
+        };
+
+        // Начальное сообщение
+        loadingText.innerHTML = `${messages[0].emoji} ${messages[0].text}`;
+
+        // Запланированное обновление сообщений
+        const messageIntervals = [
+          { time: 800, index: 1 },
+          { time: 1600, index: 2 },
+          { time: 2400, index: 3 },
+          { time: 3200, index: 4 },
+          { time: 4000, index: 5 }
+        ];
+
+        messageIntervals.forEach(({time, index}) => {
+          setTimeout(() => updateMessage(index), time);
+        });
+
+        // Дополнительные эффекты при наведении
+        const logo = document.querySelector('.loading-logo');
+        if (logo) {
+          logo.addEventListener('mouseover', () => {
+            logo.style.transform = 'rotateY(20deg) scale(1.1)';
+            logo.style.boxShadow = '0 0 60px rgba(13, 110, 253, 0.8)';
+          });
+
+          logo.addEventListener('mouseout', () => {
+            logo.style.transform = '';
+            logo.style.boxShadow = '';
+          });
+        }
+      });
+  </script>
+</body>
+</html>

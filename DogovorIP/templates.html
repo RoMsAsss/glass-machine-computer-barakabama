@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Каталог шаблонов | DogovorIP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --bs-gradient: linear-gradient(135deg, #3B82F6 0%, #F97316 100%);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, #121212 0%, #1a1a2e 100%);
+      color: white;
+      padding: 5rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .search-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .template-card {
+      transition: all 0.3s ease;
+      border: none;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      height: 100%;
+    }
+
+    .template-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    .template-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--bs-gradient);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    .preview-btn {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+    }
+
+    .category-filter {
+      background: white;
+      border-radius: 50px;
+      padding: 10px 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .category-btn {
+      border: none;
+      background: none;
+      padding: 5px 15px;
+      border-radius: 20px;
+      transition: all 0.3s;
+    }
+
+    .category-btn.active {
+      background: var(--bs-gradient);
+      color: white;
+    }
+
+    .preview-modal iframe {
+      width: 100%;
+      height: 80vh;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero-блок -->
+  <section class="hero-section text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h1 class="display-4 fw-bold mb-4 animate__animated animate__fadeInDown">Каталог шаблонов</h1>
+          <p class="lead mb-5 animate__animated animate__fadeInUp">Профессиональные юридические документы для вашего бизнеса</p>
+
+          <div class="search-container animate__animated animate__fadeInUp animate__delay-1s">
+            <div class="input-group mb-4">
+              <input type="text" class="form-control form-control-lg" placeholder="Поиск по названию..." id="searchInput">
+              <button class="btn btn-primary" type="button" id="searchBtn">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Фильтры по категориям -->
+  <section class="py-4">
+    <div class="container">
+      <div class="category-filter d-flex justify-content-center flex-wrap">
+        <button class="category-btn active me-2 mb-2" data-category="all">Все</button>
+        <button class="category-btn me-2 mb-2" data-category="contracts">Договоры</button>
+        <button class="category-btn me-2 mb-2" data-category="policies">Политики</button>
+        <button class="category-btn me-2 mb-2" data-category="offers">Оферты</button>
+        <button class="category-btn me-2 mb-2" data-category="nda">NDA</button>
+        <button class="category-btn me-2 mb-2" data-category="free">Бесплатные</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Список шаблонов -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row g-4" id="templatesContainer">
+        <!-- Шаблоны будут загружены здесь -->
+        <div class="col-12 text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Загрузка...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Модальное окно предпросмотра -->
+  <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="previewModalTitle">Предпросмотр</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="preview-modal">
+            <iframe id="previewFrame" src="about:blank"></iframe>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+          <a href="#" class="btn btn-primary" id="downloadBtn">Скачать</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Скрипты -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script>
+    // Текущие фильтры
+    let currentCategory = 'all';
+    let currentSearch = '';
+
+    // Загрузка шаблонов
+    async function loadTemplates() {
+      const container = document.getElementById('templatesContainer');
+      container.innerHTML = '<div class="col-12 text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Загрузка...</span></div></div>';
+
+      try {
+        const response = await fetch(`/api/templates?category=${currentCategory === 'all' ? '' : currentCategory}&search=${currentSearch}`);
+
+        if (!response.ok) {
+          throw new Error('Ошибка сервера: ' + response.status);
+        }
+
+        const data = await response.json();
+
+        if (!data.templates || data.templates.length === 0) {
+          container.innerHTML = '<div class="col-12 text-center text-muted py-5">Шаблоны не найдены</div>';
+          return;
+        }
+
+        container.innerHTML = '';
+
+        data.templates.forEach((template, index) => {
+          const card = document.createElement('div');
+          card.className = 'col-md-4 animate__animated animate__fadeInUp';
+          card.style.animationDelay = `${index * 0.1}s`;
+
+          card.innerHTML = `
+            <div class="template-card">
+              <div class="card-body p-4">
+                ${template.isFree ? '<span class="template-badge">Бесплатно</span>' : ''}
+                <h5 class="card-title">${template.name}</h5>
+                <p class="card-text text-muted">${template.description || 'Описание отсутствует'}</p>
+                <small class="text-muted d-block mb-3">${new Date(template.createdAt).toLocaleDateString()}</small>
+                <button class="btn btn-sm btn-outline-primary preview-btn" data-id="${template.id}">
+                  <i class="bi bi-eye me-1"></i> Предпросмотр
+                </button>
+              </div>
+            </div>
+          `;
+
+          container.appendChild(card);
+        });
+
+        document.querySelectorAll('.preview-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const templateId = this.dataset.id;
+            showPreview(templateId);
+          });
+        });
+      } catch (error) {
+        console.error('Error loading templates:', error);
+        container.innerHTML = `
+          <div class="col-12 text-center text-danger py-5">
+            Ошибка загрузки шаблонов<br>
+            <small>${error.message}</small>
+          </div>
+        `;
+      }
+    }
+
+    // Показать предпросмотр
+    async function showPreview(templateId) {
+      try {
+        // Получаем список шаблонов
+        const templatesResponse = await fetch(`/api/templates?category=${currentCategory === 'all' ? '' : currentCategory}&search=${currentSearch}`);
+        const templatesData = await templatesResponse.json();
+
+        // Находим нужный шаблон по ID
+        const template = templatesData.templates.find(t => t.id === templateId);
+
+        if (!template) {
+          throw new Error('Шаблон не найден');
+        }
+
+        const modal = new bootstrap.Modal(document.getElementById('previewModal'));
+        const title = document.getElementById('previewModalTitle');
+        const frame = document.getElementById('previewFrame');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        title.textContent = template.name;
+
+        // Загружаем шаблон в iframe через обработчик
+        frame.src = `/template-processor.php?file=${encodeURIComponent(template.filename)}`;
+
+        // Устанавливаем ссылку для скачивания
+        downloadBtn.href = `/template-processor.php?file=${encodeURIComponent(template.filename)}&action=download`;
+
+        modal.show();
+      } catch (error) {
+        console.error('Error showing preview:', error);
+        alert('Ошибка загрузки предпросмотра: ' + error.message);
+      }
+    }
+
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', function() {
+      // Загружаем шаблоны при загрузке страницы
+      loadTemplates();
+
+      // Обработчики фильтров по категориям
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          currentCategory = this.dataset.category;
+          loadTemplates();
+        });
+      });
+
+      // Обработчик поиска
+      document.getElementById('searchBtn').addEventListener('click', function() {
+        currentSearch = document.getElementById('searchInput').value;
+        loadTemplates();
+      });
+
+      // Поиск при нажатии Enter
+      document.getElementById('searchInput').addEventListener('keyup', function(e) {
+        if (e.key === 'Enter') {
+          currentSearch = this.value;
+          loadTemplates();
+        }
+      });
+    });
+</script>
+</body>
+</html>

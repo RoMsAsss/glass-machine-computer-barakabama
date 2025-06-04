@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Колесо Фортуны | DogovorIP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --main-gradient: linear-gradient(135deg, #3B82F6 0%, #F97316 100%);
+      --dark-bg: #121212;
+      --darker-bg: #0a0a0a;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--dark-bg);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Анимация фона */
+    .bg-circles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.1);
+      filter: blur(30px);
+      animation: float 15s infinite linear;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
+    }
+
+    .wheel-section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 2rem 0;
+    }
+
+    .wheel-container {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      margin: 2rem auto;
+      aspect-ratio: 1/1;
+      perspective: 1000px;
+    }
+
+    #wheelCanvas {
+      width: 100%;
+      height: 100%;
+      transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+      transform-style: preserve-3d;
+      filter: drop-shadow(0 0 20px rgba(251, 146, 60, 0.3));
+    }
+
+    .wheel-pointer {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      width: 50px;
+      height: 50px;
+      filter: drop-shadow(0 0 10px rgba(251, 146, 60, 0.7));
+    }
+
+    #spinBtn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: none;
+      background: var(--main-gradient);
+      color: white;
+      font-weight: bold;
+      font-size: 1.1rem;
+      box-shadow: 0 0 20px rgba(251, 146, 60, 0.5);
+      transition: all 0.3s;
+    }
+
+    #spinBtn:hover {
+      transform: translate(-50%, -50%) scale(1.05);
+      box-shadow: 0 0 30px rgba(251, 146, 60, 0.8);
+    }
+
+    #spinBtn:disabled {
+      opacity: 0.7;
+      transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    .prize-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s;
+    }
+
+    .prize-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .prize-probability {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      background: rgba(251, 146, 60, 0.2);
+      color: #F97316;
+    }
+
+    .jackpot {
+      position: relative;
+      border: 2px solid #F59E0B;
+    }
+
+    .jackpot::after {
+      content: '★';
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #F59E0B;
+      color: #000;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+
+    .glow-text {
+      text-shadow: 0 0 10px rgba(251, 146, 60, 0.7);
+    }
+
+    .section-title {
+      background: var(--main-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 800;
+    }
+
+    .attempt-info {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .won-prize {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 2rem;
+      text-align: center;
+      animation: pulse-green 2s infinite;
+    }
+
+    @keyframes pulse-green {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .wheel-disappear {
+      animation: disappear 1.5s forwards;
+    }
+
+    @keyframes disappear {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    .next-date {
+      color: #F97316;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <!-- Анимированные круги на фоне -->
+  <div class="bg-circles" id="bgCircles"></div>
+
+  <section class="wheel-section">
+    <div class="container text-center py-5">
+      <h1 class="display-4 fw-bold mb-3 section-title">Колесо Фортуны</h1>
+      <p class="lead mb-4 glow-text">Крутите колесо и получите бонусы для вашего бизнеса!</p>
+
+      <div class="attempt-info">
+        <i class="bi bi-info-circle me-2"></i>
+        <span id="attemptText">У вас осталось 1 попытка в этом месяце</span>
+      </div>
+
+      <!-- Блок с выигранным призом -->
+      <div id="wonPrizeContainer" class="won-prize" style="display: none;">
+        <i class="bi bi-trophy-fill text-success me-2"></i>
+        <span id="wonPrizeText">Вы выиграли: Скидка 10% на подписку</span>
+      </div>
+
+      <!-- Основное колесо -->
+      <div id="wheelWrapper" class="wheel-container">
+        <canvas id="wheelCanvas"></canvas>
+        <div class="wheel-pointer">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="50,0 90,50 50,100 10,50" fill="#F97316" stroke="#fff" stroke-width="3"/>
+          </svg>
+        </div>
+        <button id="spinBtn">КРУТИТЬ</button>
+      </div>
+
+      <div class="row justify-content-center mt-5">
+        <div class="col-lg-8">
+          <h4 class="mb-4 glow-text">Возможные призы и их вероятности:</h4>
+          <div id="prizesList" class="row"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Модальное окно результата -->
+  <div id="resultModal" class="modal fade" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark text-white border border-warning">
+        <div class="modal-header border-bottom border-warning justify-content-center position-relative">
+          <h3 class="modal-title text-center">ПОЗДРАВЛЯЕМ!</h3>
+          <div class="position-absolute end-0 top-0 p-2">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="modal-body text-center py-4">
+          <i class="bi bi-gift-fill fs-1 text-warning mb-3"></i>
+          <p id="resultText" class="fs-5">Вы выиграли: <strong class="d-block mt-2 fs-4 text-warning"></strong></p>
+        </div>
+        <div class="modal-footer border-top border-warning justify-content-center">
+          <button type="button" class="btn btn-warning btn-lg px-4 fw-bold" data-bs-dismiss="modal">ЗАБРАТЬ ПРИЗ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Призы для колеса с вероятностями
+      const prizes = [
+        {
+          text: "Скидка 5% на подписку",
+          color: "#3B82F6",
+          icon: "bi-percent",
+          probability: "40%",
+          weight: 40
+        },
+        {
+          text: "Скидка 10% на подписку",
+          color: "#F97316",
+          icon: "bi-percent",
+          probability: "25%",
+          weight: 25
+        },
+        {
+          text: "Скидка 15% на подписку",
+          color: "#10B981",
+          icon: "bi-percent",
+          probability: "15%",
+          weight: 15
+        },
+        {
+          text: "Шаблон договора разработки",
+          color: "#8B5CF6",
+          icon: "bi-file-earmark-text",
+          probability: "10%",
+          weight: 10,
+          isJackpot: true
+        },
+        {
+          text: "Шаблон NDA соглашения",
+          color: "#EC4899",
+          icon: "bi-file-earmark-lock",
+          probability: "5%",
+          weight: 5,
+          isJackpot: true
+        },
+        {
+          text: "3 любых шаблона бесплатно",
+          color: "#F59E0B",
+          icon: "bi-stars",
+          probability: "5%",
+          weight: 5,
+          isJackpot: true
+        }
+      ];
+
+      // Элементы DOM
+      const canvas = document.getElementById('wheelCanvas');
+      const ctx = canvas.getContext('2d');
+      const spinBtn = document.getElementById('spinBtn');
+      const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
+      const resultText = document.getElementById('resultText').querySelector('strong');
+      const prizesList = document.getElementById('prizesList');
+      const attemptText = document.getElementById('attemptText');
+      const bgCircles = document.getElementById('bgCircles');
+      const wonPrizeContainer = document.getElementById('wonPrizeContainer');
+      const wonPrizeText = document.getElementById('wonPrizeText');
+      const wheelWrapper = document.getElementById('wheelWrapper');
+
+      // Проверка попыток в localStorage
+      const lastSpinDate = localStorage.getItem('lastSpinDate');
+      const lastPrize = localStorage.getItem('lastPrize');
+      const now = new Date();
+      let attemptsLeft = 1;
+      let nextAvailableDate = new Date();
+      nextAvailableDate.setMonth(nextAvailableDate.getMonth() + 1);
+
+      if (lastSpinDate) {
+        const lastDate = new Date(lastSpinDate);
+        const diffMonths = (now.getFullYear() - lastDate.getFullYear()) * 12 + now.getMonth() - lastDate.getMonth();
+
+        if (diffMonths < 1) {
+          attemptsLeft = 0;
+          spinBtn.disabled = true;
+          spinBtn.textContent = "Попробуйте в следующем месяце";
+
+          // Показываем выигранный приз если есть
+          if (lastPrize) {
+            wonPrizeContainer.style.display = 'block';
+            wonPrizeText.textContent = `Вы выиграли: ${lastPrize}`;
+          }
+        }
+      }
+
+      updateAttemptText();
+
+      function updateAttemptText() {
+        if (attemptsLeft > 0) {
+          attemptText.innerHTML = "У вас осталась <strong>1 попытка</strong> в этом месяце";
+        } else {
+          const options = { month: 'long', day: 'numeric' };
+          attemptText.innerHTML = `Вы уже использовали свою попытку. Ждём вас <span class="next-date">${nextAvailableDate.toLocaleDateString('ru-RU', options)}</span>`;
+        }
+      }
+
+      // Создаем анимированные круги на фоне
+      function createBackgroundCircles() {
+        const colors = [
+          'rgba(59, 130, 246, 0.1)',
+          'rgba(249, 115, 22, 0.1)',
+          'rgba(16, 185, 129, 0.1)',
+          'rgba(139, 92, 246, 0.1)'
+        ];
+
+        for (let i = 0; i < 8; i++) {
+          const circle = document.createElement('div');
+          circle.className = 'bg-circle';
+          circle.style.width = `${Math.random() * 300 + 100}px`;
+          circle.style.height = circle.style.width;
+          circle.style.left = `${Math.random() * 100}%`;
+          circle.style.top = `${Math.random() * 100}%`;
+          circle.style.background = colors[Math.floor(Math.random() * colors.length)];
+          circle.style.animationDuration = `${Math.random() * 20 + 10}s`;
+          circle.style.animationDelay = `${Math.random() * 5}s`;
+          bgCircles.appendChild(circle);
+        }
+      }
+
+      // Настройка canvas
+      function resizeCanvas() {
+        const size = Math.min(canvas.parentElement.offsetWidth, 500);
+        canvas.width = size;
+        canvas.height = size;
+        drawWheel();
+      }
+
+      // Отрисовка колеса с 3D эффектом
+      function drawWheel() {
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(centerX, centerY) - 20;
+        const arc = Math.PI * 2 / prizes.length;
+        const bevel = 15; // Размер 3D-эффекта
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Рисуем 3D-эффект
+        prizes.forEach((prize, i) => {
+          const angle = i * arc;
+
+          // Боковая грань
+          ctx.beginPath();
+          ctx.fillStyle = shadeColor(prize.color, -20);
+          ctx.moveTo(
+            centerX + Math.cos(angle) * radius,
+            centerY + Math.sin(angle) * radius
+          );
+          ctx.lineTo(
+            centerX + Math.cos(angle) * (radius + bevel),
+            centerY + Math.sin(angle) * (radius + bevel)
+          );
+          ctx.lineTo(
+            centerX + Math.cos(angle + arc) * (radius + bevel),
+            centerY + Math.sin(angle + arc) * (radius + bevel)
+          );
+          ctx.lineTo(
+            centerX + Math.cos(angle + arc) * radius,
+            centerY + Math.sin(angle + arc) * radius
+          );
+          ctx.closePath();
+          ctx.fill();
+
+          // Верхняя грань
+          ctx.beginPath();
+          ctx.fillStyle = prize.color;
+          ctx.moveTo(centerX, centerY);
+          ctx.arc(centerX, centerY, radius, angle, angle + arc, false);
+          ctx.closePath();
+          ctx.fill();
+          ctx.strokeStyle = "rgba(255,255,255,0.1)";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+
+          // Текст приза
+          ctx.save();
+          ctx.translate(centerX, centerY);
+          ctx.rotate(angle + arc / 2);
+          ctx.textAlign = "right";
+          ctx.fillStyle = "#fff";
+          ctx.font = `bold ${radius / 10}px Arial`;
+
+          // Разбиваем текст на две строки если нужно
+          const words = prize.text.split(' ');
+          if (words.length > 2 && prize.text.length > 15) {
+            const line1 = words.slice(0, Math.ceil(words.length/2)).join(' ');
+            const line2 = words.slice(Math.ceil(words.length/2)).join(' ');
+            ctx.fillText(line1, radius - 25, -5);
+            ctx.fillText(line2, radius - 25, 15);
+          } else {
+            ctx.fillText(prize.text, radius - 25, 5);
+          }
+
+          ctx.restore();
+        });
+
+        // Центральный круг с 3D эффектом
+        ctx.beginPath();
+        ctx.fillStyle = "#2d2d2d";
+        ctx.arc(centerX, centerY, radius * 0.15, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = "#fff";
+        ctx.arc(centerX, centerY, radius * 0.1, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(0,0,0,0.2)";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+      }
+
+      // Функция затемнения/осветления цвета
+      function shadeColor(color, percent) {
+        let R = parseInt(color.substring(1,3), 16);
+        let G = parseInt(color.substring(3,5), 16);
+        let B = parseInt(color.substring(5,7), 16);
+
+        R = parseInt(R * (100 + percent) / 100);
+        G = parseInt(G * (100 + percent) / 100);
+        B = parseInt(B * (100 + percent) / 100);
+
+        R = (R<255)?R:255;
+        G = (G<255)?G:255;
+        B = (B<255)?B:255;
+
+        return `#${(0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1)}`;
+      }
+
+      // Заполнение списка призов
+      function fillPrizesList() {
+        prizes.forEach(prize => {
+          const col = document.createElement('div');
+          col.className = 'col-md-6 mb-3';
+
+          const card = document.createElement('div');
+          card.className = `prize-card h-100 ${prize.isJackpot ? 'jackpot' : ''}`;
+          card.innerHTML = `
+            <div class="d-flex align-items-center mb-2">
+              <div class="me-3" style="color: ${prize.color}; font-size: 1.5rem;">
+                <i class="bi ${prize.icon}"></i>
+              </div>
+              <h5 class="mb-0">${prize.text}</h5>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="prize-probability">${prize.probability}</span>
+              ${prize.isJackpot ? '<span class="badge bg-warning text-dark">Редкий приз</span>' : ''}
+            </div>
+          `;
+
+          col.appendChild(card);
+          prizesList.appendChild(col);
+        });
+      }
+
+      // Вращение колеса
+      function spin() {
+        if (isSpinning || attemptsLeft <= 0) return;
+        isSpinning = true;
+        spinBtn.disabled = true;
+
+        // Сохраняем дату попытки
+        const now = new Date();
+        localStorage.setItem('lastSpinDate', now.toISOString());
+        attemptsLeft = 0;
+        updateAttemptText();
+
+        const spinDuration = 4000 + Math.random() * 2000; // 4-6 секунд
+        const startAngle = currentAngle;
+        const spinAngle = 1800 + Math.random() * 360; // 5-6 полных оборотов
+        const endAngle = startAngle + spinAngle;
+        const startTime = performance.now();
+
+        // Выбираем приз с учетом весов
+        const totalWeight = prizes.reduce((sum, prize) => sum + prize.weight, 0);
+        let random = Math.random() * totalWeight;
+        let prizeIndex = 0;
+        let weightSum = 0;
+
+        for (let i = 0; i < prizes.length; i++) {
+          weightSum += prizes[i].weight;
+          if (random <= weightSum) {
+            prizeIndex = i;
+            break;
+          }
+        }
+
+        // Сохраняем выигранный приз
+        localStorage.setItem('lastPrize', prizes[prizeIndex].text);
+
+        // Рассчитываем угол для выбранного приза
+        const arc = 360 / prizes.length;
+        const targetAngle = 360 - (prizeIndex * arc + arc / 2) + 360 * 5; // 5 дополнительных оборотов
+
+        function animate(time) {
+          const elapsed = time - startTime;
+          const progress = Math.min(elapsed / spinDuration, 1);
+          const easeProgress = easeOutElastic(progress);
+
+          currentAngle = startAngle + (targetAngle * easeProgress);
+
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+            drawWheelAtAngle(currentAngle);
+          } else {
+            isSpinning = false;
+            currentAngle %= 360;
+            showResult(prizeIndex);
+          }
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      // Функция плавности с эффектом "пружины"
+      function easeOutElastic(t) {
+        const p = 0.3;
+        return Math.pow(2, -10 * t) * Math.sin((t - p/4) * (2 * Math.PI)/p) + 1;
+      }
+
+      // Отрисовка колеса под углом
+      function drawWheelAtAngle(angle) {
+        ctx.save();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate(angle * Math.PI / 180);
+        ctx.translate(-canvas.width / 2, -canvas.height / 2);
+        drawWheel();
+        ctx.restore();
+      }
+
+      // Показать результат
+      function showResult(index) {
+        const prize = prizes[index];
+
+        // Показываем выигранный приз
+        wonPrizeContainer.style.display = 'block';
+        wonPrizeText.textContent = `Вы выиграли: ${prize.text}`;
+
+        // Показываем модальное окно
+        resultText.textContent = prize.text;
+        resultText.parentElement.querySelector('i').className = `bi ${prize.icon} fs-1 ${prize.isJackpot ? 'text-warning' : 'text-success'} mb-3`;
+        resultModal.show();
+
+        // Анимация исчезновения колеса
+        setTimeout(() => {
+          wheelWrapper.classList.add('wheel-disappear');
+        }, 2000);
+      }
+
+      // Инициализация
+      let isSpinning = false;
+      let currentAngle = 0;
+
+      window.addEventListener('resize', resizeCanvas);
+      spinBtn.addEventListener('click', spin);
+
+      createBackgroundCircles();
+      resizeCanvas();
+      fillPrizesList();
+    });
+  </script>
+</body>
+</html>

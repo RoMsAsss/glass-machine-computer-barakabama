@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Блог DogovorIP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .blog-post {
+      transition: all 0.3s ease;
+    }
+    .blog-post:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .like-dislike-btn {
+      cursor: pointer;
+    }
+    .comment-section {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Навигация -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+        <img
+          src="logo.jpg"
+          alt="DogovorIP Logo"
+          width="40"
+          height="40"
+          class="d-inline-block me-2 rounded-circle border border-2 border-warning"
+        >
+        DogovorIP
+      </a>
+    </div>
+  </nav>
+
+  <!-- Основной контент -->
+  <div class="container py-5 mt-5">
+    <div class="row">
+      <div class="col-lg-8" id="blogContent">
+        <!-- Посты блога будут загружаться здесь -->
+        <div class="text-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Загрузка...</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-header bg-primary text-white">
+            Популярные посты
+          </div>
+          <div class="card-body" id="popularPosts">
+            <!-- Популярные посты будут загружаться здесь -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Загрузка постов блога
+    document.addEventListener('DOMContentLoaded', function() {
+      let blogPosts = [];
+      fetch('/api/blog')
+        .then(response => response.json())
+        .then(posts => {
+          blogPosts = posts;
+          renderBlogPosts();
+        })
+        .catch(error => console.error('Error loading blog posts:', error));
+
+      function renderBlogPosts() {
+        // ваш существующий код рендеринга
+      }
+      const blogContent = document.getElementById('blogContent');
+      const popularPosts = document.getElementById('popularPosts');
+
+      if (blogPosts.length === 0) {
+        blogContent.innerHTML = '<div class="alert alert-info">Здесь пока нет записей в блоге</div>';
+        popularPosts.innerHTML = '<div class="text-muted">Нет популярных постов</div>';
+        return;
+      }
+
+      // Отображение всех постов
+      blogContent.innerHTML = '';
+      blogPosts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.className = 'card mb-4 blog-post';
+        postElement.id = `post-${post.id}`;
+
+        postElement.innerHTML = `
+          ${post.image ? `<img src="${post.image}" class="card-img-top" alt="${post.title}">` : ''}
+          <div class="card-body">
+            <h2 class="card-title">${post.title}</h2>
+            <p class="text-muted">Опубликовано: ${new Date(post.publishDate || post.date).toLocaleDateString()}</p>
+            <div class="card-text">${post.content}</div>
+
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <div>
+                <span class="like-dislike-btn text-success me-2" data-post-id="${post.id}">
+                  <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">0</span>
+                </span>
+                <span class="like-dislike-btn text-danger" data-post-id="${post.id}">
+                  <i class="bi bi-hand-thumbs-down"></i> <span class="dislike-count">0</span>
+                </span>
+              </div>
+              <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#comments-${post.id}">
+                Комментарии
+              </button>
+            </div>
+
+            <div class="collapse mt-3" id="comments-${post.id}">
+              <div class="card card-body comment-section">
+                <div class="mb-3">
+                  <textarea class="form-control mb-2" placeholder="Ваш комментарий" id="comment-input-${post.id}"></textarea>
+                  <button class="btn btn-primary btn-sm add-comment" data-post-id="${post.id}">Отправить</button>
+                </div>
+                <div class="comments-list" data-post-id="${post.id}">
+                  <!-- Комментарии будут загружаться здесь -->
+                  <div class="text-muted small">Здесь пока нет комментариев</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        blogContent.appendChild(postElement);
+      });
+
+      // Отображение популярных постов (первые 3)
+      popularPosts.innerHTML = '';
+      blogPosts.slice(0, 3).forEach(post => {
+        const popularPost = document.createElement('div');
+        popularPost.className = 'mb-3';
+        popularPost.innerHTML = `
+          <h5><a href="#post-${post.id}" class="text-decoration-none">${post.title}</a></h5>
+          <p class="small text-muted">${new Date(post.publishDate || post.date).toLocaleDateString()}</p>
+        `;
+        popularPosts.appendChild(popularPost);
+      });
+
+      // Обработчики лайков/дизлайков
+      document.querySelectorAll('.like-dislike-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const postId = this.dataset.postId;
+          const isLike = this.classList.contains('text-success');
+
+          // В реальном проекте здесь будет запрос к серверу
+          alert(`Вы ${isLike ? 'лайкнули' : 'дизлайкнули'} пост ${postId}`);
+        });
+      });
+
+      // Обработчики добавления комментариев
+      document.querySelectorAll('.add-comment').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const postId = this.dataset.postId;
+          const commentInput = document.getElementById(`comment-input-${postId}`);
+          const commentText = commentInput.value.trim();
+
+          if (commentText) {
+            const commentsList = document.querySelector(`.comments-list[data-post-id="${postId}"]`);
+
+            if (commentsList.querySelector('.text-muted')) {
+              commentsList.innerHTML = '';
+            }
+
+            const commentElement = document.createElement('div');
+            commentElement.className = 'mb-2 p-2 bg-light rounded';
+            commentElement.innerHTML = `
+              <div class="fw-bold">Анонимный пользователь</div>
+              <div>${commentText}</div>
+              <div class="small text-muted">Только что</div>
+            `;
+
+            commentsList.appendChild(commentElement);
+            commentInput.value = '';
+          }
+        });
+      });
+
+      // Прокрутка к конкретному посту, если есть хэш в URL
+      if (window.location.hash) {
+        const targetPost = document.querySelector(window.location.hash);
+        if (targetPost) {
+          setTimeout(() => {
+            targetPost.scrollIntoView();
+          }, 100);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

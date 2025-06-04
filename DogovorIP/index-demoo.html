@@ -1,0 +1,2516 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DogovorIP | Меню</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">я
+  <style>
+    /* Базовые стили */
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+    }
+
+    .loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0e17 0%, #121826 100%);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+      transition: opacity 0.8s ease-out;
+      overflow: hidden;
+    }
+
+    /* Анимированный фон с частицами */
+    .particles-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(13, 110, 253, 0.1);
+      box-shadow: 0 0 20px rgba(13, 110, 253, 0.3);
+      animation: float 15s infinite linear;
+    }
+
+    .particle-1 {
+      width: 300px;
+      height: 300px;
+      top: -150px;
+      left: -150px;
+      animation-delay: 0s;
+      animation-duration: 25s;
+    }
+
+    .particle-2 {
+      width: 200px;
+      height: 200px;
+      top: 20%;
+      right: -100px;
+      animation-delay: 2s;
+      animation-duration: 20s;
+    }
+
+    .particle-3 {
+      width: 150px;
+      height: 150px;
+      bottom: -75px;
+      left: 30%;
+      animation-delay: 4s;
+      animation-duration: 18s;
+    }
+
+    .particle-4 {
+      width: 250px;
+      height: 250px;
+      top: 60%;
+      right: -125px;
+      animation-delay: 1s;
+      animation-duration: 22s;
+    }
+
+    .particle-5 {
+      width: 180px;
+      height: 180px;
+      bottom: -90px;
+      right: 25%;
+      animation-delay: 3s;
+      animation-duration: 17s;
+    }
+
+    .particle-6 {
+      width: 220px;
+      height: 220px;
+      top: -110px;
+      right: 15%;
+      animation-delay: 5s;
+      animation-duration: 19s;
+    }
+
+    .all-templates-btn {
+      padding: 0.8rem 2rem;
+      font-weight: 600;
+      margin: 2rem auto;
+      display: block;
+      max-width: 300px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .all-templates-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Технологичные линии */
+    .tech-lines {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .line {
+      position: absolute;
+      background: linear-gradient(90deg, transparent, rgba(13, 110, 253, 0.2), transparent);
+      height: 1px;
+      animation: lineFlow 10s infinite linear;
+    }
+
+    .line-1 {
+      top: 20%;
+      width: 100%;
+      animation-delay: 0s;
+    }
+
+    .line-2 {
+      top: 45%;
+      width: 80%;
+      left: 10%;
+      animation-delay: 2s;
+      animation-direction: reverse;
+    }
+
+    .line-3 {
+      top: 70%;
+      width: 60%;
+      left: 20%;
+      animation-delay: 4s;
+    }
+
+    .line-4 {
+      top: 90%;
+      width: 40%;
+      left: 30%;
+      animation-delay: 6s;
+      animation-direction: reverse;
+    }
+
+    /* Основное содержимое */
+    .loading-content {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 500px;
+      padding: 2rem;
+      z-index: 10;
+    }
+
+    .loading-logo-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin-bottom: 2.5rem;
+      perspective: 1000px;
+    }
+
+    .loading-logo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid rgba(13, 110, 253, 0.4);
+      box-shadow: 0 0 40px rgba(13, 110, 253, 0.4);
+      transform-style: preserve-3d;
+      animation: logo3d 8s infinite ease-in-out;
+      filter: grayscale(10%) contrast(110%) brightness(1.1);
+      z-index: 2;
+      position: relative;
+    }
+
+    .loading-logo-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, rgba(13, 110, 253, 0.3) 0%, transparent 70%);
+      animation: glowPulse 3s infinite alternate;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    .loading-logo-particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    .logo-particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #0d6efd;
+      border-radius: 50%;
+      filter: blur(1px);
+      animation: orbit 6s infinite linear;
+    }
+
+    .logo-particle:nth-child(1) {
+      top: 10px;
+      left: 50%;
+      animation-delay: 0s;
+    }
+
+    .logo-particle:nth-child(2) {
+      top: 50%;
+      right: 10px;
+      animation-delay: 2s;
+    }
+
+    .logo-particle:nth-child(3) {
+      bottom: 10px;
+      left: 50%;
+      animation-delay: 4s;
+    }
+
+    .loading-text-container {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .loading-title {
+      font-size: 3.8rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 20px rgba(13, 110, 253, 0.7);
+      position: relative;
+      display: inline-block;
+      animation: textRise 1.5s ease-out forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .loading-title-highlight {
+      color: #0d6efd;
+      position: relative;
+      display: inline-block;
+    }
+
+    .loading-title-highlight::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border: 2px solid rgba(13, 110, 253, 0.5);
+      border-radius: 50%;
+      animation: highlightPulse 2s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    .loading-title-highlight::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #0d6efd, transparent);
+      animation: lineExpand 2.5s infinite;
+      transform-origin: center;
+    }
+
+    .loading-subtitle {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      animation: subtitleFloat 5s infinite ease-in-out;
+      text-shadow: 0 1px 10px rgba(13, 110, 253, 0.4);
+      position: relative;
+    }
+
+    .loading-subtitle::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 25%;
+      width: 50%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(13, 110, 253, 0.5), transparent);
+      animation: subtitleLine 3s infinite;
+    }
+
+    .loading-progress-container {
+      width: 100%;
+      max-width: 350px;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .loading-progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 0.8rem;
+      box-shadow: 0 1px 10px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .loading-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #0d6efd, #6f42c1);
+      border-radius: 3px;
+      transition: width 0.4s ease;
+      position: relative;
+      box-shadow: 0 0 15px rgba(13, 110, 253, 0.6);
+    }
+
+    .loading-progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+      animation: loadingShine 2.5s infinite;
+    }
+
+    .progress-dots {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.3;
+      transform: scale(0);
+      animation: dotPulse 2s infinite;
+    }
+
+    .dot:nth-child(1) { animation-delay: 0.3s; }
+    .dot:nth-child(2) { animation-delay: 0.6s; }
+    .dot:nth-child(3) { animation-delay: 0.9s; }
+
+    .loading-progress-text {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+      letter-spacing: 1.5px;
+      text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+      animation: textGlow 2s infinite alternate;
+    }
+
+    .loading-legal-notice {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2rem;
+      position: relative;
+    }
+
+    .loading-seal {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1.2rem;
+      animation: sealRotate 12s infinite linear;
+      filter: drop-shadow(0 0 8px rgba(13, 110, 253, 0.7));
+    }
+
+    .loading-copyright {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    /* Анимации */
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(50px, 30px) rotate(5deg); }
+      50% { transform: translate(100px, 0) rotate(0deg); }
+      75% { transform: translate(50px, -30px) rotate(-5deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    @keyframes lineFlow {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    @keyframes logo3d {
+      0%, 100% { transform: rotateY(0deg) rotateX(0deg) scale(1); }
+      25% { transform: rotateY(15deg) rotateX(5deg) scale(1.05); }
+      50% { transform: rotateY(0deg) rotateX(10deg) scale(1.03); }
+      75% { transform: rotateY(-15deg) rotateX(5deg) scale(1.05); }
+    }
+
+    @keyframes glowPulse {
+      0% { opacity: 0.5; transform: scale(0.95); }
+      100% { opacity: 0.8; transform: scale(1.05); }
+    }
+
+    @keyframes orbit {
+      0% { transform: rotate(0deg) translateX(70px) rotate(0deg); }
+      100% { transform: rotate(360deg) translateX(70px) rotate(-360deg); }
+    }
+
+    @keyframes highlightPulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.1); opacity: 0.3; }
+    }
+
+    @keyframes lineExpand {
+      0% { transform: scaleX(0); opacity: 0; }
+      50% { transform: scaleX(1); opacity: 1; }
+      100% { transform: scaleX(0); opacity: 0; }
+    }
+
+    @keyframes subtitleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @keyframes subtitleLine {
+      0%, 100% { transform: scaleX(0); opacity: 0; }
+      50% { transform: scaleX(1); opacity: 1; }
+    }
+
+    @keyframes loadingShine {
+      0% { transform: translateX(-100%) skewX(-20deg); }
+      100% { transform: translateX(100%) skewX(-20deg); }
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1); opacity: 0.5; }
+    }
+
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 5px rgba(13, 110, 253, 0.3); }
+      100% { text-shadow: 0 0 10px rgba(13, 110, 253, 0.7); }
+    }
+
+    @keyframes sealRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .loading.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    :root {
+      --main-gradient: linear-gradient(135deg, #3B82F6 0%, #F97316 100%);
+      --dark-bg: #1a1a2e;
+      --card-bg: rgba(30, 30, 46, 0.8);
+      --text-color: #e6e6e6;
+      --text-muted: #a1a1a1;
+    }
+
+    /* Анимация фона с шариками */
+    .particles {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      background: var(--dark-bg);
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.15);
+      animation: float 15s infinite linear;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+      50% { transform: translate(50px, -50px) rotate(180deg); opacity: 0.7; }
+      100% { transform: translate(0, 0) rotate(360deg); opacity: 1; }
+    }
+
+    /* Анимация при клике */
+    .click-effect {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(249, 115, 22, 0.6);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 100;
+      animation: ripple 1s ease-out forwards;
+    }
+
+    @keyframes ripple {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(10); opacity: 0; }
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-color);
+      min-height: 100vh;
+      cursor: default;
+    }
+
+    .hero {
+      background: var(--main-gradient);
+      color: white;
+      padding: 5rem 2rem 3rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      margin-top: 1rem;
+    }
+
+    .menu-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 4rem 2rem;
+      background: rgba(26, 26, 46, 0.7);
+      backdrop-filter: blur(5px);
+    }
+
+    .menu-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      padding: 2rem;
+      text-align: center;
+      width: 280px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    .menu-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .menu-card i {
+      font-size: 2.5rem;
+      color: #3B82F6;
+      margin-bottom: 1rem;
+    }
+
+    .menu-card h5 {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+
+    .menu-card p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .menu-card a {
+      margin-top: 1rem;
+      display: inline-block;
+      background: var(--main-gradient);
+      color: white;
+      padding: 0.6rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .menu-card a:hover {
+      opacity: 0.9;
+      box-shadow: 0 0 15px rgba(251, 146, 60, 0.5);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+      color: white;
+      background: var(--main-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 0 2rem 4rem;
+    }
+
+    .template-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+      position: relative;
+    }
+
+    .free-badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #10B981;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .template-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .template-card h4 {
+      color: #3B82F6;
+      margin-bottom: 0.5rem;
+    }
+
+    .template-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .template-card a {
+      display: inline-block;
+      margin-top: 1rem;
+      color: #3B82F6;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .pricing-cards {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      padding: 0 2rem 4rem;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .review-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      padding: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    .review-card .stars {
+      color: #F97316;
+      margin-bottom: 1rem;
+    }
+
+    .review-card p {
+      font-style: italic;
+      color: var(--text-muted);
+    }
+
+    .review-card .author {
+      font-weight: 600;
+      margin-top: 1rem;
+      color: white;
+    }
+
+    .blog-section {
+      padding: 4rem 2rem;
+      background: rgba(26, 26, 46, 0.7);
+      backdrop-filter: blur(5px);
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .blog-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .blog-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .blog-card-content {
+      padding: 1.5rem;
+    }
+
+    .blog-card h4 {
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+
+    .blog-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .blog-card a {
+      color: #3B82F6;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+
+    .login-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: white;
+      color: #3B82F6;
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .login-btn:hover {
+      background: #3B82F6;
+      color: white;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
+
+    footer {
+      background: rgba(20, 20, 40, 0.9);
+      color: var(--text-muted);
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    .glow-text {
+      text-shadow: 0 0 10px rgba(251, 146, 60, 0.7);
+    }
+
+    .all-templates-btn {
+      display: block;
+      text-align: center;
+      margin: 2rem auto;
+      max-width: 300px;
+    }
+  </style>
+  <style>
+    /* Добавить в существующие стили */
+    .trust-card-inner {
+      padding: 2.5rem;
+    }
+
+    .form-select.bg-dark {
+      background-color: rgba(30, 30, 46, 0.8) !important;
+      border-color: rgba(59, 130, 246, 0.3) !important;
+      color: white !important;
+    }
+
+    .form-select.bg-dark:focus {
+      border-color: rgba(59, 130, 246, 0.6) !important;
+      box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+    }
+
+    .custom-range::-webkit-slider-thumb {
+      background: var(--main-gradient);
+    }
+
+    .custom-range::-moz-range-thumb {
+      background: var(--main-gradient);
+    }
+
+    .custom-range::-ms-thumb {
+      background: var(--main-gradient);
+    }
+
+    .btn-gradient {
+      background: var(--main-gradient);
+      border: none;
+      color: white;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-gradient:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-gradient::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(to bottom right, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%);
+      transform: rotate(30deg);
+      transition: all 0.3s ease;
+    }
+
+    .btn-gradient:hover::after {
+      animation: shine 1.5s infinite;
+    }
+
+    @keyframes shine {
+      100% {
+        transform: translateX(100%) rotate(30deg);
+      }
+    }
+
+    .text-white-80 {
+      color: rgba(255, 255, 255, 0.8);
+    }
+  </style>
+  <style>
+
+    .trust-section .section-title {
+      margin-bottom: 4rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .trust-card {
+      perspective: 1000px;
+    }
+
+    .trust-card-inner {
+      position: relative;
+      background: rgba(30, 30, 46, 0.9);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      height: 100%;
+      border: 1px solid rgba(59, 130, 246, 0.15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      overflow: hidden;
+    }
+
+    .trust-card:hover .trust-card-inner {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(59, 130, 246, 0.25);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .stars-container {
+      position: relative;
+      width: fit-content;
+      margin: 0 auto 1.5rem;
+    }
+
+    .stars-pulse {
+      position: absolute;
+      top: -15px;
+      left: -15px;
+      right: -15px;
+      bottom: -15px;
+      background: rgba(249, 115, 22, 0.1);
+      border-radius: 50%;
+      animation: pulse 3s infinite;
+      z-index: 0;
+    }
+
+    .stars {
+      position: relative;
+      color: #F97316;
+      font-size: 2.2rem;
+      z-index: 1;
+    }
+
+    .trust-value {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: white;
+      text-align: center;
+      margin: 0 0 0.5rem;
+      line-height: 1;
+    }
+
+    .trust-value span {
+      font-size: 1.5rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 600;
+    }
+
+    .trust-caption {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    .money-icon {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .money-icon i {
+      font-size: 3rem;
+      color: #10B981;
+      z-index: 2;
+    }
+
+    .money-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, transparent 70%);
+      animation: glowPulse 2s infinite alternate;
+    }
+
+    .coin-animation {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .coin {
+      position: absolute;
+      color: #10B981;
+      font-weight: bold;
+      font-size: 1.2rem;
+      opacity: 0;
+    }
+
+    .coin-1 {
+      animation: coinFloat 8s infinite linear;
+      top: 20%;
+      left: 15%;
+    }
+
+    .coin-2 {
+      animation: coinFloat 10s infinite linear 2s;
+      top: 30%;
+      left: 70%;
+    }
+
+    .coin-3 {
+      animation: coinFloat 7s infinite linear 4s;
+      top: 70%;
+      left: 40%;
+    }
+
+    .partners-title {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .partners-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #3B82F6, transparent);
+    }
+
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .partner-logo {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .partner-logo::before {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .partner-logo:hover::before {
+      opacity: 1;
+    }
+
+    .logo-box {
+      height: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+      padding: 1rem;
+    }
+
+    .logo-box:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
+    }
+
+    .logo-box img {
+      width: 30px;
+      height: 30px;
+      margin-bottom: 0.5rem;
+      object-fit: contain;
+    }
+
+    .logo-box span {
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .partner-connector {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+      animation: connectorFlow 6s infinite linear;
+    }
+
+    .trust-orb {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+      z-index: 0;
+    }
+
+    .orb-1 {
+      width: 120px;
+      height: 120px;
+      top: -30px;
+      right: -30px;
+      animation: orbFloat 15s infinite linear;
+    }
+
+    .orb-2 {
+      width: 80px;
+      height: 80px;
+      bottom: -20px;
+      left: -20px;
+      animation: orbFloat 12s infinite linear reverse;
+    }
+
+    .trust-bg-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .trust-bg-particles .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.05);
+      filter: blur(1px);
+    }
+
+    .p1 {
+      width: 300px;
+      height: 300px;
+      top: -150px;
+      left: -150px;
+      animation: particleFloat 25s infinite linear;
+    }
+
+    .p2 {
+      width: 200px;
+      height: 200px;
+      bottom: -100px;
+      right: -100px;
+      animation: particleFloat 20s infinite linear reverse;
+    }
+
+    .p3 {
+      width: 150px;
+      height: 150px;
+      top: 50%;
+      left: 50%;
+      animation: particleFloat 18s infinite linear;
+    }
+
+    /* Анимации */
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.2); opacity: 0.3; }
+    }
+
+    @keyframes glowPulse {
+      0% { opacity: 0.3; transform: scale(0.9); }
+      100% { opacity: 0.7; transform: scale(1.1); }
+    }
+
+    @keyframes coinFloat {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(10px, 10px) rotate(5deg); }
+      50% { transform: translate(20px, 0) rotate(0deg); }
+      75% { transform: translate(10px, -10px) rotate(-5deg); }
+    }
+
+    @keyframes particleFloat {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(50px, 30px) rotate(5deg); }
+      50% { transform: translate(100px, 0) rotate(0deg); }
+      75% { transform: translate(50px, -30px) rotate(-5deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    @keyframes connectorFlow {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+  </style>
+  <style>
+    /* Стили для секции тарифов */
+    .pricing-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .pricing-toggle {
+      display: inline-flex;
+      background: rgba(30, 30, 46, 0.8);
+      border-radius: 50px;
+      padding: 5px;
+      margin: 2rem auto 3rem;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .pricing-cards {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: rgba(30, 30, 46, 0.8);
+      border-radius: 20px;
+      padding: 2.5rem;
+      width: 320px;
+      min-height: 500px;
+      position: relative;
+      border: 1px solid rgba(59, 130, 246, 0.15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      backdrop-filter: blur(5px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pricing-card button {
+      margin-top: auto;
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #3B82F6, #6f42c1);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .toggle-btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .toggle-btn.active {
+      background: linear-gradient(90deg, #3B82F6, #6f42c1);
+      color: white;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
+
+    .pricing-card.featured {
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      box-shadow: 0 10px 30px rgba(249, 115, 22, 0.2);
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(59, 130, 246, 0.25);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .pricing-card.featured:hover {
+      box-shadow: 0 15px 40px rgba(249, 115, 22, 0.3);
+    }
+
+    .pricing-card h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 1.5rem;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .price-block {
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .old-price {
+      display: block;
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: line-through;
+      margin-bottom: 0.5rem;
+    }
+
+    .price {
+      font-size: 3rem;
+      font-weight: 800;
+      color: white;
+      display: block;
+      line-height: 1;
+      background: linear-gradient(90deg, #3B82F6, #6f42c1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .period {
+      font-size: 1rem;
+      font-weight: normal;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .pricing-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 2rem 0;
+      text-align: left;
+    }
+
+    .pricing-card ul li {
+      padding: 0.8rem 0;
+      color: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+    }
+
+    .pricing-card ul li:before {
+      content: "✓";
+      color: #3B82F6;
+      margin-right: 0.8rem;
+      font-weight: bold;
+    }
+
+    .pricing-card button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .pricing-card.featured button {
+      background: linear-gradient(90deg, #F97316, #fd7e14);
+      box-shadow: 0 5px 15px rgba(249, 115, 22, 0.3);
+    }
+
+    .pricing-card.featured button:hover {
+      box-shadow: 0 10px 20px rgba(249, 115, 22, 0.4);
+    }
+
+    .badge {
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      background: linear-gradient(90deg, #F97316, #fd7e14);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(249, 115, 22, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Анимации */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .pricing-card {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .pricing-card:nth-child(2) {
+      animation-delay: 1s;
+    }
+
+    .pricing-card:nth-child(3) {
+      animation-delay: 2s;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 992px) {
+      .pricing-cards {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .pricing-card {
+        width: 100%;
+        max-width: 400px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .pricing-toggle {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .toggle-btn {
+        width: 100%;
+      }
+
+      .pricing-card {
+        padding: 2rem 1.5rem;
+      }
+
+      .price {
+        font-size: 2.5rem;
+      }
+    }
+  </style>
+  <style>
+    /* Адаптированные стили прелоадера с префиксом custom- */
+    .custom-loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 9999;
+    }
+
+    .custom-dynamic-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      background: linear-gradient(120deg, #111 0%, #1a1410 35%, #C28E4D 100%);
+      background-size: 200% 200%;
+      animation: custom-gradientMove 8s ease-in-out infinite alternate;
+      overflow: hidden;
+    }
+
+    @keyframes custom-gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .custom-particles {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .custom-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffe9b3 0%, #C28E4D 60%, transparent 100%);
+      opacity: 0.4;
+      animation: custom-floatParticle 7s linear infinite;
+    }
+
+    .custom-particle.p1 { width: 80px; height: 80px; left: 10vw; top: 20vh; animation-delay: 0s; }
+    .custom-particle.p2 { width: 50px; height: 50px; left: 70vw; top: 60vh; animation-delay: 2s; }
+    .custom-particle.p3 { width: 30px; height: 30px; left: 40vw; top: 80vh; animation-delay: 1s; }
+    .custom-particle.p4 { width: 60px; height: 60px; left: 80vw; top: 10vh; animation-delay: 3s; }
+    .custom-particle.p5 { width: 40px; height: 40px; left: 25vw; top: 50vh; animation-delay: 1.5s; }
+
+    @keyframes custom-floatParticle {
+      0% { transform: translateY(0) scale(1);}
+      50% { opacity: 0.7; transform: translateY(-60px) scale(1.15);}
+      100% { opacity: 0.4; transform: translateY(0) scale(1);}
+    }
+
+    .custom-preloader-inner {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(24, 19, 15, 0.88);
+      border-radius: 40px;
+      box-shadow: 0 12px 64px 0 #000a, 0 0 0 2px #C28E4D40;
+      padding: 72px 96px 56px 96px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 38px;
+      min-width: 520px;
+      max-width: 95vw;
+      z-index: 3;
+      transition: box-shadow 0.4s;
+    }
+
+    .custom-logo {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 30px;
+      box-shadow: 0 2px 32px 0 #C28E4D60;
+      background: #222;
+      margin-bottom: 12px;
+    }
+
+    .custom-preloader-text {
+      color: #E6C16A;
+      font-size: 1.7rem;
+      letter-spacing: 0.04em;
+      text-align: center;
+      text-shadow: 0 2px 12px #000;
+      margin-bottom: 18px;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .custom-loader {
+      width: 80px;
+      height: 80px;
+      border: 8px solid #2a2116;
+      border-top: 8px solid #E6C16A;
+      border-right: 8px solid #C28E4D;
+      border-radius: 50%;
+      animation: custom-spin 1.3s linear infinite;
+      margin-bottom: 10px;
+      box-shadow: 0 0 32px 0 #C28E4D80;
+    }
+
+    @keyframes custom-spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+
+    .custom-steps {
+      margin-top: 22px;
+      width: 100%;
+      max-width: 460px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .custom-step {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 1.18rem;
+      color: #C28E4D;
+      background: rgba(34,29,21,0.65);
+      border-radius: 14px;
+      padding: 12px 20px;
+      box-shadow: 0 2px 12px 0 #0002;
+      opacity: 0.85;
+      animation: custom-fadein 0.8s;
+    }
+
+    .custom-step-icon {
+      font-size: 1.45em;
+      color: #E6C16A;
+      flex-shrink: 0;
+    }
+
+    @keyframes custom-fadein {
+      from { opacity: 0; transform: translateY(10px);}
+      to { opacity: 0.85; transform: translateY(0);}
+    }
+
+    .custom-interior {
+      width: 100%;
+      margin: 32px 0 0 0;
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+    }
+
+    .custom-interior-rect {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: linear-gradient(140deg, #1a1410 0%, #C28E4D 100%);
+      opacity: 0.7;
+      box-shadow: 0 4px 24px 0 #C28E4D40;
+      border: 2px solid #B67D43;
+      margin: 0 2px;
+      animation: custom-float 2.4s ease-in-out infinite alternate;
+    }
+
+    .custom-interior-rect:nth-child(2) { animation-delay: 0.5s; }
+    .custom-interior-rect:nth-child(3) { animation-delay: 1s; }
+    .custom-interior-rect:nth-child(4) { animation-delay: 1.3s; }
+
+    @keyframes custom-float {
+      0% { transform: translateY(0);}
+      100% { transform: translateY(-28px);}
+    }
+
+    .custom-cta-block {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 22px 0 16px 0;
+      background: rgba(17,17,17,0.97);
+      color: #B67D43;
+      font-size: 1.08rem;
+      text-align: center;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      border-top: 1px solid #C28E4D40;
+      letter-spacing: 0.03em;
+      user-select: none;
+      box-shadow: 0 -2px 20px 0 #0005;
+      z-index: 4;
+    }
+
+    @media (max-width:900px) {
+      .custom-preloader-inner { padding: 32px 8vw 24px 8vw; min-width: 0;}
+      .custom-steps { max-width: 95vw;}
+      .custom-interior { gap: 18px;}
+      .custom-interior-rect { width: 36px; height: 36px;}
+    }
+
+    @media (max-width:600px) {
+      .custom-preloader-inner { padding: 18px 2vw 14px 2vw; min-width: 0;}
+      .custom-steps { max-width: 98vw;}
+      .custom-interior { gap: 8px;}
+      .custom-interior-rect { width: 18px; height: 18px;}
+      .custom-logo { width: 64px; height: 64px;}
+      .custom-preloader-text { font-size: 1.05rem;}
+      .custom-loader { width: 38px; height: 38px; border-width: 5px;}
+    }
+
+    @media (max-width: 900px) {
+      .pricing-cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+      }
+      .pricing-card, .card {
+        width: 95vw;
+        max-width: 370px;
+        min-width: unset;
+        padding: 18px 8px;
+        margin: 0 auto 18px auto;
+      }
+      h1, .main-title { font-size: 2rem; }
+      h2, .section-title { font-size: 1.1rem; }
+      h3, .card-title { font-size: 1rem; }
+      .btn, button { width: 100%; font-size: 1rem; padding: 12px 0; }
+      .price-block { flex-direction: column; gap: 4px; align-items: flex-start; }
+      .text-bg { font-size: 1rem; padding: 8px 8px; }
+    }
+  </style>
+
+
+</head>
+<body>
+  <!-- Адаптированный прелоадер-->
+  <div id="custom-preloader" class="custom-loading">
+    <div class="custom-dynamic-bg"></div>
+    <div class="custom-particles">
+      <div class="custom-particle p1"></div>
+      <div class="custom-particle p2"></div>
+      <div class="custom-particle p3"></div>
+      <div class="custom-particle p4"></div>
+      <div class="custom-particle p5"></div>
+    </div>
+    <div class="custom-preloader-inner">
+      <img src="logo.jpg" alt="Логотип" class="custom-logo" />
+      <div class="custom-preloader-text">
+        Платформа автоматизации договоров для IT, Web3, фрилансеров и юристов.<br>
+        <span style="font-size:1.1em; font-weight:400; color:#C28E4D;">Стандартные и гибкие юридические шаблоны для защиты ваших интересов</span>
+      </div>
+      <div class="custom-loader"></div>
+      <div class="custom-steps">
+        <div class="custom-step"><span class="custom-step-icon">🔒</span>Устанавливаем безопасное соединение...</div>
+        <div class="custom-step" style="display:none;"><span class="custom-step-icon">🛡️</span>Проверяем сертификаты безопасности...</div>
+        <div class="custom-step" style="display:none;"><span class="custom-step-icon">🔑</span>Шифруем ваши данные...</div>
+        <div class="custom-step" style="display:none;"><span class="custom-step-icon">⚡</span>Загружаем интерфейс платформы...</div>
+      </div>
+      <div class="custom-interior">
+        <div class="custom-interior-rect"></div>
+        <div class="custom-interior-rect"></div>
+        <div class="custom-interior-rect"></div>
+        <div class="custom-interior-rect"></div>
+      </div>
+    </div>
+    <div class="custom-cta-block">
+      © 2025 Платформа автоматизации договоров. Все права защищены.
+    </div>
+  </div>
+
+  <!-- Фон с шариками -->
+  <div class="particles" id="particles"></div>
+
+  <section class="hero">
+    <a href="lk-demo.html" class="login-btn animate__animated animate__fadeIn">
+      <i class="bi bi-person-circle"></i> Личный кабинет
+    </a>
+    <div class="container">
+      <h1 class="animate__animated animate__fadeInDown">Добро пожаловать в DogovorIP</h1>
+      <p class="animate__animated animate__fadeInUp animate__delay-1s glow-text">
+        Платформа автоматизации договоров для IT, Web3, фрилансеров и юристов.
+      </p>
+    </div>
+  </section>
+
+  <section class="menu-section">
+    <div class="menu-card animate__animated animate__fadeInLeft">
+      <i class="bi bi-file-earmark-text"></i>
+      <h5>Шаблоны</h5>
+      <p>Доступ к 30+ платным шаблонам договоров и документов.</p>
+      <a href="templates.html">Платные шаблоны</a>
+    </div>
+    <div class="menu-card animate__animated animate__fadeInUp">
+      <i class="bi bi-tags"></i>
+      <h5>Тарифы</h5>
+      <p>Гибкие планы: стартовый, бизнес и профессиональный.</p>
+      <a href="#pricing">Сравнить тарифы</a>
+    </div>
+    <div class="menu-card animate__animated animate__fadeInRight">
+      <i class="bi bi-stars"></i>
+      <h5>Отзывы</h5>
+      <p>Что говорят 230+ пользователей DogovorIP.</p>
+      <a href="#reviews">Читать отзывы</a>
+    </div>
+    <div class="menu-card animate__animated animate__fadeInLeft">
+      <i class="bi bi-chat-left-text"></i>
+      <h5>Блог</h5>
+      <p>Статьи по юридическим темам и шаблонам для IT.</p>
+      <a href="#blog">Открыть блог</a>
+    </div>
+  </section>
+
+  <section id="templates" class="py-5">
+    <div class="container">
+      <h2 class="section-title animate__animated animate__fadeIn">Бесплатные шаблоны</h2>
+      <div class="templates-grid">
+        <div class="template-card animate__animated animate__fadeInUp">
+          <span class="free-badge">Бесплатно</span>
+          <h4>Договор разработки ПО</h4>
+          <p>Стандартный договор на разработку программного обеспечения с учетом всех юридических нюансов.</p>
+          <a href="none1.html">Скачать шаблон</a>
+        </div>
+        <div class="template-card animate__animated animate__fadeInUp animate__delay-1s">
+          <span class="free-badge">Бесплатно</span>
+          <h4>NDA (Соглашение о конфиденциальности)</h4>
+          <p>Защитите свою интеллектуальную собственность перед началом сотрудничества.</p>
+          <a href="none1.html">Скачать шаблон</a>
+        </div>
+        <div class="template-card animate__animated animate__fadeInUp animate__delay-2s">
+          <span class="free-badge">Бесплатно</span>
+          <h4>Договор подряда</h4>
+          <p>Для фрилансеров и подрядчиков в IT-сфере с гибкими условиями.</p>
+          <a href="none1.html">Скачать шаблон</a>
+        </div>
+      </div>
+      <a href="none1.html" class="btn btn-gradient all-templates-btn">
+        <i class="bi bi-collection me-2"></i> Все бесплатные шаблоны
+      </a>
+    </div>
+  </section>
+
+  <!-- Калькулятор экономии (вставить в секцию после "Популярные шаблоны") -->
+  <section id="calculator" class="py-6">
+    <div class="container">
+      <h2 class="section-title animate__animated animate__fadeIn">Калькулятор экономии</h2>
+      <p class="text-center text-muted mb-5 animate__animated animate__fadeIn animate__delay-1s">Узнайте, сколько вы сэкономите с нашими юридическими шаблонами</p>
+
+      <div class="row justify-content-center animate__animated animate__fadeInUp">
+        <div class="col-lg-8">
+          <div class="trust-card">
+            <div class="trust-card-inner">
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-label text-white-80 mb-2">Тип документа</label>
+                    <select class="form-select bg-dark text-white border-secondary" id="document-type">
+                      <option value="contract">Договор разработки ПО</option>
+                      <option value="offer">Оферта</option>
+                      <option value="privacy">Политика конфиденциальности</option>
+                      <option value="nda">NDA соглашение</option>
+                      <option value="freelance">Договор с фрилансером</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-label text-white-80 mb-2">Тип бизнеса</label>
+                    <select class="form-select bg-dark text-white border-secondary" id="business-type">
+                      <option value="startup">Стартап</option>
+                      <option value="freelancer">Фрилансер</option>
+                      <option value="agency">IT-агентство</option>
+                      <option value="infobusiness">Инфобизнес</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group mt-4">
+                <label class="form-label text-white-80 mb-3">Количество документов: <span id="docs-count-value" class="text-primary">3</span></label>
+                <input type="range" class="form-range custom-range" id="docs-count" min="1" max="20" value="3">
+              </div>
+
+              <button class="btn btn-gradient w-100 mt-4 py-3 fw-bold" id="calculate-btn">
+                <i class="bi bi-calculator me-2"></i>Рассчитать экономию
+              </button>
+
+              <div class="results mt-5" id="results" style="display: none;">
+                <div class="row g-4">
+                  <div class="col-md-4">
+                    <div class="trust-card">
+                      <div class="trust-card-inner text-center py-4">
+                        <div class="money-icon">
+                          <i class="bi bi-cash-coin"></i>
+                          <div class="money-glow"></div>
+                        </div>
+                        <p class="trust-caption">Юрист</p>
+                        <h3 class="trust-value text-danger" id="lawyer-cost">54 000<span>₽</span></h3>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="trust-card">
+                      <div class="trust-card-inner text-center py-4">
+                        <div class="money-icon">
+                          <i class="bi bi-file-earmark-text"></i>
+                          <div class="money-glow" style="background: radial-gradient(circle, rgba(13,110,253,0.3) 0%, transparent 70%);"></div>
+                        </div>
+                        <p class="trust-caption">Наши шаблоны</p>
+                        <h3 class="trust-value text-primary" id="templates-cost">9 504<span>₽</span></h3>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="trust-card">
+                      <div class="trust-card-inner text-center py-4">
+                        <div class="money-icon">
+                          <i class="bi bi-piggy-bank"></i>
+                          <div class="money-glow" style="background: radial-gradient(circle, rgba(40,167,69,0.3) 0%, transparent 70%);"></div>
+                        </div>
+                        <p class="trust-caption">Экономия</p>
+                        <h3 class="trust-value text-success" id="savings">44 496<span>₽</span></h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="chart-container mt-5" id="chart-container" style="height: 300px; display: none;">
+                  <canvas id="cost-chart"></canvas>
+                </div>
+
+                <div class="text-center mt-5" id="cta-container" style="display: none;">
+                  <button class="btn btn-lg btn-gradient px-5 py-3 fw-bold">
+                    <i class="bi bi-arrow-right-circle me-2"></i>Получить шаблоны со скидкой 15%
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- Остальные разделы остаются без изменений -->
+  <section class="pricing-section">
+    <h2 class="section-title">Тарифы</h2>
+    <div class="pricing-toggle">
+      <button class="toggle-btn active" id="monthlyBtn" type="button">В месяц</button>
+      <button class="toggle-btn" id="onceBtn" type="button">За 1 документ</button>
+    </div>
+    <div class="pricing-cards" id="pricingCards">
+      <!-- Тариф 1 -->
+      <div class="pricing-card">
+        <h3>Базовый</h3>
+        <div class="price-block">
+          <span class="old-price">590 ₽</span>
+          <span class="price">0 ₽<span class="period">/мес</span></span>
+        </div>
+        <ul>
+          <li>Доступ к шаблонам</li>
+          <li>Базовая поддержка</li>
+          <li>1 проект</li>
+        </ul>
+        <button>Выбрать</button>
+      </div>
+      <!-- Тариф 2 -->
+      <div class="pricing-card featured">
+        <div class="badge">Популярный</div>
+        <h3>Профи</h3>
+        <div class="price-block">
+          <span class="old-price">1990 ₽</span>
+          <span class="price">990 ₽<span class="period">/мес</span></span>
+        </div>
+        <ul>
+          <li>Все шаблоны и обновления</li>
+          <li>Приоритетная поддержка</li>
+          <li>Неограниченные проекты</li>
+          <li>Интеграции</li>
+        </ul>
+        <button>Выбрать</button>
+      </div>
+      <!-- Тариф 3 -->
+      <div class="pricing-card">
+        <h3>Бизнес</h3>
+        <div class="price-block">
+          <span class="old-price">4990 ₽</span>
+          <span class="price">2990 ₽<span class="period">/мес</span></span>
+        </div>
+        <ul>
+          <li>Персональный менеджер</li>
+          <li>API-доступ</li>
+          <li>Командная работа</li>
+          <li>Все функции Pro</li>
+        </ul>
+        <button>Выбрать</button>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Система доверия - улучшенная версия -->
+  <section id="trust" class="trust-section py-6">
+    <div class="container">
+      <h2 class="section-title animate__animated animate__fadeIn">Нам доверяют <span class="glow-text">лидеры рынка</span></h2>
+
+      <div class="trust-grid">
+        <!-- Карточка рейтинга -->
+        <div class="trust-card animate__animated animate__fadeInLeft">
+          <div class="trust-card-inner">
+            <div class="stars-container">
+              <div class="stars-pulse"></div>
+              <div class="stars">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-half"></i>
+              </div>
+            </div>
+            <h3 class="trust-value">4.9<span>/5</span></h3>
+            <p class="trust-caption">Рейтинг на Trustpilot</p>
+            <div class="trust-orb orb-1"></div>
+            <div class="trust-orb orb-2"></div>
+          </div>
+        </div>
+
+        <!-- Карточка экономии -->
+        <div class="trust-card animate__animated animate__fadeInUp">
+          <div class="trust-card-inner">
+            <div class="money-icon">
+              <i class="bi bi-cash-stack"></i>
+              <div class="money-glow"></div>
+            </div>
+            <h3 class="trust-value">89 000<span>₽</span></h3>
+            <p class="trust-caption">Средняя экономия клиентов</p>
+            <div class="coin-animation">
+              <div class="coin coin-1">₽</div>
+              <div class="coin coin-2">₽</div>
+              <div class="coin coin-3">₽</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Карточка партнеров -->
+        <div class="trust-card animate__animated animate__fadeInRight">
+          <div class="trust-card-inner">
+            <h4 class="partners-title">Нас рекомендуют</h4>
+            <div class="partners-grid">
+              <div class="partner-logo" data-tooltip="Крупнейшая IT-платформа">
+                <div class="logo-box habr">
+                  <img src="https://habr.com/favicon.ico" alt="Habr" onerror="this.style.display='none'">
+                  <span>Habr</span>
+                </div>
+              </div>
+              <div class="partner-logo" data-tooltip="Бизнес-сообщество">
+                <div class="logo-box vc">
+                  <img src="https://vc.ru/favicon.ico" alt="VC.ru" onerror="this.style.display='none'">
+                  <span>VC.ru</span>
+                </div>
+              </div>
+              <div class="partner-logo" data-tooltip="Юридический портал">
+                <div class="logo-box pravo">
+                  <img src="https://pravo.ru/favicon.ico" alt="Pravo.ru" onerror="this.style.display='none'">
+                  <span>Pravo.ru</span>
+                </div>
+              </div>
+              <div class="partner-logo" data-tooltip="Стартап-акселератор">
+                <div class="logo-box sk">
+                  <img src="https://sk.ru/favicon.ico" alt="SK" onerror="this.style.display='none'">
+                  <span>SK</span>
+                </div>
+              </div>
+            </div>
+            <div class="partner-connector"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- CTA-блок -->
+  <section class="py-5 text-white" style="background: var(--bs-gradient);">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center fade-in-section">
+          <h2 class="display-6 fw-bold mb-4">Запустите бизнес без юридических рисков уже сегодня!</h2>
+          <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            <button class="btn btn-gradient btn-lg px-4 me-sm-3 fw-bold">Начать бесплатно</button>
+            <button class="btn btn-outline-light btn-lg px-4" data-bs-toggle="modal" data-bs-target="#consultationModal">Заказать консультацию</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Футер -->
+  <footer class="bg-dark text-white py-5">
+    <div class="container py-4">
+      <div class="row">
+        <div class="col-lg-3 mb-4 fade-in-section">
+          <h5 class="fw-bold mb-3">DogovorIP</h5>
+          <p>Юридические решения для IT-бизнеса</p>
+        </div>
+        <div class="col-lg-3 mb-4 fade-in-section">
+          <h5 class="fw-bold mb-3">Разделы</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#" class="text-white-50">Шаблоны</a></li>
+            <li class="mb-2"><a href="#" class="text-white-50">Тарифы</a></li>
+            <li class="mb-2"><a href="#" class="text-white-50">Блог</a></li>
+            <li class="mb-2"><a href="#" class="text-white-50">Отзывы</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 mb-4 fade-in-section">
+          <h5 class="fw-bold mb-3">Поддержка</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#" class="text-white-50">Контакты</a></li>
+            <li class="mb-2"><a href="#" class="text-white-50">FAQ</a></li>
+            <li class="mb-2"><a href="#" class="text-white-50">Документы</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 mb-4 fade-in-section">
+          <h5 class="fw-bold mb-3">Контакты</h5>
+          <p class="text-white-50">info@dogovorip.ru<br>+7 (123) 456-78-90</p>
+        </div>
+      </div>
+      <hr class="my-4">
+      <div class="text-center">
+        <p class="mb-0">© 2025 DogovorIP. Все права защищены.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script>
+    // Адаптированный скрипт прелоадера
+    document.addEventListener('DOMContentLoaded', function() {
+      const steps = document.querySelectorAll('.custom-steps .custom-step');
+      let stepIndex = 0;
+
+      function showNextStep() {
+        if (stepIndex < steps.length - 1) {
+          setTimeout(() => {
+            steps[stepIndex + 1].style.display = '';
+            stepIndex++;
+            showNextStep();
+          }, 1000);
+        }
+      }
+
+      // Запуск этапов через 1 секунду после загрузки
+      setTimeout(showNextStep, 1000);
+
+      setTimeout(function() {
+        const preloader = document.getElementById('custom-preloader');
+        if (preloader) {
+          preloader.style.opacity = '0';
+          preloader.style.transition = 'opacity 0.8s';
+          setTimeout(function() {
+            preloader.style.display = 'none';
+          }, 800);
+        }
+      }, 4000); // 4 секунды
+    });
+  </script>
+  <script>
+    // Создаем шарики для фона
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 15;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+
+        const size = Math.random() * 100 + 50;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 10;
+        const duration = Math.random() * 20 + 10;
+        const opacity = Math.random() * 0.3 + 0.1;
+
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.opacity = opacity;
+
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Анимация при клике
+    function createClickEffect(e) {
+      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' ||
+          e.target.closest('button') || e.target.closest('a')) {
+        return;
+      }
+
+      const effect = document.createElement('div');
+      effect.className = 'click-effect';
+      effect.style.left = `${e.clientX}px`;
+      effect.style.top = `${e.clientY}px`;
+
+      document.body.appendChild(effect);
+
+      setTimeout(() => {
+        effect.remove();
+      }, 1000);
+    }
+
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', () => {
+      const preloader = document.getElementById('preloader');
+
+      createParticles();
+      document.addEventListener('click', createClickEffect);
+    });
+  </script>
+  <script>
+    // Добавляем анимацию при появлении в viewport
+    document.addEventListener('DOMContentLoaded', function() {
+      const trustCards = document.querySelectorAll('.trust-card');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate__fadeIn');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      trustCards.forEach(card => {
+        observer.observe(card);
+      });
+
+      // Анимация монеток для карточки экономии
+      const coins = document.querySelectorAll('.coin');
+      coins.forEach((coin, index) => {
+        coin.style.setProperty('--delay', `${index * 0.5}s`);
+      });
+    });
+  </script>
+  <script>
+    // Обновленный скрипт калькулятора с анимациями
+    document.addEventListener('DOMContentLoaded', function() {
+      // Данные для калькулятора
+      const priceData = {
+        documents: {
+          contract: { name: "Договор разработки ПО", lawyerPrice: 18000 },
+          offer: { name: "Оферта", lawyerPrice: 12000 },
+          privacy: { name: "Политика конфиденциальности", lawyerPrice: 8000 },
+          nda: { name: "NDA соглашение", lawyerPrice: 6000 },
+          freelance: { name: "Договор с фрилансером", lawyerPrice: 10000 }
+        },
+        business: {
+          startup: { name: "Стартап", multiplier: 1.2 },
+          freelancer: { name: "Фрилансер", multiplier: 0.8 },
+          agency: { name: "IT-агентство", multiplier: 1.5 },
+          infobusiness: { name: "Инфобизнес", multiplier: 1.0 }
+        },
+        templatePrice: 990,
+        templateDiscount: {
+          1: 0,
+          3: 0.1,
+          5: 0.15,
+          10: 0.2
+        }
+      };
+
+      // Элементы DOM
+      const docsCountInput = document.getElementById('docs-count');
+      const docsCountValue = document.getElementById('docs-count-value');
+      const calculateBtn = document.getElementById('calculate-btn');
+      const resultsDiv = document.getElementById('results');
+      const lawyerCostElem = document.getElementById('lawyer-cost');
+      const templatesCostElem = document.getElementById('templates-cost');
+      const savingsElem = document.getElementById('savings');
+      const chartContainer = document.getElementById('chart-container');
+      const ctaContainer = document.getElementById('cta-container');
+
+      // Объект графика
+      let costChart;
+
+      // Обновление значения количества документов
+      docsCountInput.addEventListener('input', function() {
+        docsCountValue.textContent = this.value;
+      });
+
+      // Расчет экономии с анимациями
+      calculateBtn.addEventListener('click', function() {
+        // Получаем значения из формы
+        const documentType = document.getElementById('document-type').value;
+        const businessType = document.getElementById('business-type').value;
+        const docsCount = parseInt(docsCountInput.value);
+
+        // Анимация кнопки
+        gsap.to(calculateBtn, {
+          scale: 0.95,
+          duration: 0.2,
+          yoyo: true,
+          repeat: 1,
+          ease: "power2.inOut",
+          onComplete: calculateSavings
+        });
+
+        function calculateSavings() {
+          // Расчет стоимости услуг юриста
+          const baseLawyerPrice = priceData.documents[documentType].lawyerPrice;
+          const businessMultiplier = priceData.business[businessType].multiplier;
+          const lawyerCost = baseLawyerPrice * businessMultiplier * docsCount;
+
+          // Расчет стоимости шаблонов с учетом скидок
+          let discountPercent = 0;
+          Object.keys(priceData.templateDiscount)
+            .sort((a, b) => parseInt(a) - parseInt(b))
+            .forEach(threshold => {
+              if (docsCount >= parseInt(threshold)) {
+                discountPercent = priceData.templateDiscount[threshold];
+              }
+            });
+
+          const templatesCost = priceData.templatePrice * docsCount * (1 - discountPercent);
+          const savings = lawyerCost - templatesCost;
+
+          // Обновляем UI с анимацией
+          gsap.from([lawyerCostElem, templatesCostElem, savingsElem], {
+            y: 20,
+            opacity: 0,
+            duration: 0.5,
+            stagger: 0.15,
+            ease: "back.out",
+            onStart: function() {
+              lawyerCostElem.textContent = numberWithCommas(Math.round(lawyerCost)) + '₽';
+              templatesCostElem.textContent = numberWithCommas(Math.round(templatesCost)) + '₽';
+              savingsElem.textContent = numberWithCommas(Math.round(savings)) + '₽';
+
+              // Показываем результаты с анимацией
+              resultsDiv.style.display = 'block';
+              chartContainer.style.display = 'block';
+              ctaContainer.style.display = 'block';
+
+              gsap.from(resultsDiv, {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                ease: "power2.out"
+              });
+            }
+          });
+
+          // Обновляем график
+          updateChart(lawyerCost, templatesCost);
+        }
+      });
+
+      // Функция обновления графика
+      function updateChart(lawyerCost, templatesCost) {
+        // Очищаем предыдущий график
+        if (costChart) {
+          costChart.destroy();
+        }
+
+        // Создаем новый график
+        const ctx = document.getElementById('cost-chart').getContext('2d');
+        costChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Услуги юриста', 'Наши шаблоны'],
+            datasets: [{
+              data: [lawyerCost, templatesCost],
+              backgroundColor: [
+                'rgba(220, 53, 69, 0.8)',
+                'rgba(13, 110, 253, 0.8)'
+              ],
+              borderColor: [
+                'rgba(220, 53, 69, 1)',
+                'rgba(13, 110, 253, 1)'
+              ],
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  color: 'white',
+                  font: {
+                    family: "'Montserrat', sans-serif"
+                  }
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    let label = context.label || '';
+                    if (label) {
+                      label += ': ';
+                    }
+                    label += Math.round(context.raw).toLocaleString('ru-RU') + ' ₽';
+                    return label;
+                  }
+                }
+              }
+            },
+            animation: {
+              animateScale: true,
+              animateRotate: true
+            }
+          }
+        });
+      }
+
+      // Форматирование чисел с пробелами
+      function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+      }
+    });
+  </script>
+  <script>
+    // Улучшенная анимация тарифов
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.pricing-card');
+      let activeCard = null;
+
+      cards.forEach(card => {
+        card.addEventListener('click', function() {
+          // Если кликаем на уже активную карточку - ничего не делаем
+          if (this === activeCard) return;
+
+          // Анимация переключения
+          if (activeCard) {
+            gsap.to(activeCard, {
+              scale: 1,
+              zIndex: 1,
+              duration: 0.5,
+              ease: "power2.out",
+              onComplete: () => {
+                activeCard.classList.remove('active');
+              }
+            });
+          }
+
+          // Активируем новую карточку
+          activeCard = this;
+          this.classList.add('active');
+
+          // Анимация активации
+          gsap.fromTo(this,
+            { scale: 1 },
+            {
+              scale: 1.05,
+              zIndex: 10,
+              duration: 0.5,
+              ease: "back.out(1.7)"
+            }
+          );
+
+          // Анимация элементов внутри карточки
+          gsap.from(this.querySelectorAll('.feature-item'), {
+            y: 20,
+            opacity: 0,
+            duration: 0.4,
+            stagger: 0.1,
+            ease: "power2.out",
+            delay: 0.3
+          });
+
+          gsap.from(this.querySelector('.select-button'), {
+            y: 20,
+            opacity: 0,
+            duration: 0.4,
+            ease: "power2.out",
+            delay: 0.5
+          });
+        });
+      });
+
+      // Активируем первую карточку по умолчанию
+      if (cards.length > 0) {
+        cards[0].click();
+      }
+    });
+  </script>
+  <script>
+    const monthlyPrices = [
+      { old: '590 ₽', current: '0 ₽', period: '/мес' },
+      { old: '1990 ₽', current: '990 ₽', period: '/мес' },
+      { old: '4990 ₽', current: '2990 ₽', period: '/мес' }
+    ];
+    const oncePrices = [
+      { old: '490 ₽', current: '190 ₽', period: '/документ' },
+      { old: '990 ₽', current: '490 ₽', period: '/документ' },
+      { old: '1990 ₽', current: '990 ₽', period: '/документ' }
+    ];
+
+    const monthlyBtn = document.getElementById('monthlyBtn');
+    const onceBtn = document.getElementById('onceBtn');
+    const pricingCards = document.querySelectorAll('.pricing-card');
+
+    function setPrices(prices) {
+      pricingCards.forEach((card, i) => {
+        card.querySelector('.old-price').textContent = prices[i].old;
+        card.querySelector('.price').childNodes[0].textContent = prices[i].current;
+        card.querySelector('.period').textContent = prices[i].period;
+      });
+    }
+
+    monthlyBtn.onclick = () => {
+      setPrices(monthlyPrices);
+      monthlyBtn.classList.add('active');
+      onceBtn.classList.remove('active');
+    };
+    onceBtn.onclick = () => {
+      setPrices(oncePrices);
+      onceBtn.classList.add('active');
+      monthlyBtn.classList.remove('active');
+    };
+  </script>
+</body>
+</html>

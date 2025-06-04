@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Редактор шаблона | DogovorIP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.1.0/docx.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <style>
+    :root {
+      --bs-gradient: linear-gradient(135deg, #3B82F6 0%, #F97316 100%);
+      --bs-gradient-reverse: linear-gradient(135deg, #F97316 0%, #3B82F6 100%);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      overflow-x: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .editor-container {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .editor-header {
+      background: linear-gradient(135deg, #121212 0%, #1a1a2e 100%);
+      color: white;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .editor-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
+      animation: pulse 8s infinite ease-in-out;
+    }
+
+    .editor-toolbar {
+      background: #f1f3f5;
+      padding: 0.75rem;
+      border-bottom: 1px solid #dee2e6;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .editor-content {
+      padding: 2rem;
+      min-height: 70vh;
+      position: relative;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 14pt;
+      line-height: 1.5;
+    }
+
+    .editor-content::after {
+      content: 'Dogovor-IP';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      font-size: 60px;
+      color: rgba(0,0,0,0.1);
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    .template-field {
+      background-color: #e3f2fd;
+      border-radius: 3px;
+      padding: 0 4px;
+      color: #000000;
+      border: 1px dashed #90caf9;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      min-width: 50px; /* Минимальная ширина поля */
+      display: inline-block; /* Чтобы width работал правильно */
+      vertical-align: top; /* Добавь эту строку */
+    }
+
+    /* Стиль для активного/фокусного поля */
+    .template-field:focus {
+      outline: none;
+      border: 1px solid ##000000;
+      min-width: 100px; /* Широкая минимальная ширина при фокусе */
+      padding: 0 8px; /* Больше отступы */
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Стиль для пустого поля */
+    .template-field[data-empty="true"] {
+      color: #90caf9;
+      min-width: 100px; /* Широкая минимальная ширина для пустых полей */
+    }
+
+    .template-field[data-empty="true"] {
+      color: #90caf9; /* Светло-синий для пустых полей */
+    }
+
+    .template-field[data-editing="true"] {
+      color: #000000; /* Черный цвет при редактировании */
+      min-width: 100px;
+      padding: 0 8px;
+    }
+
+    .export-btn {
+      position: relative;
+      overflow: hidden;
+      background: var(--bs-gradient);
+      color: white;
+      border: none;
+      font-weight: bold;
+      padding: 10px 25px;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .export-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      color: white;
+    }
+
+    .export-btn:active {
+      transform: translateY(0);
+    }
+
+    .export-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(to bottom right, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%);
+      transform: rotate(30deg);
+      transition: all 0.3s ease;
+    }
+
+    .export-btn:hover::after {
+      animation: shine 1.5s infinite;
+    }
+
+    @keyframes shine {
+      100% {
+        transform: translateX(100%) rotate(30deg);
+      }
+    }
+
+    .dropdown-menu {
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      border: none;
+      overflow: hidden;
+    }
+
+    .dropdown-item {
+      padding: 0.5rem 1.5rem;
+      transition: all 0.2s;
+    }
+
+    .dropdown-item:hover {
+      background: var(--bs-gradient);
+      color: white;
+    }
+
+    .dropdown-divider {
+      margin: 0.25rem 0;
+    }
+
+    .status-bar {
+      background: #f1f3f5;
+      padding: 0.5rem 1rem;
+      border-top: 1px solid #dee2e6;
+      font-size: 0.8rem;
+      color: #6c757d;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .word-count {
+      font-weight: bold;
+      color: #495057;
+    }
+
+    /* Анимации */
+    @keyframes pulse {
+      0% { transform: scale(0.8); opacity: 0.5; }
+      50% { transform: scale(1.2); opacity: 0.2; }
+      100% { transform: scale(0.8); opacity: 0.5; }
+    }
+
+    .animate-pop {
+      animation: pop 0.3s ease-out;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Запрет копирования */
+    .no-copy {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* Стили для модального окна экспорта */
+    .export-modal .modal-content {
+      border-radius: 15px;
+      overflow: hidden;
+      border: none;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    .export-option {
+      padding: 1.5rem;
+      border-radius: 10px;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: 1px solid #dee2e6;
+      margin-bottom: 1rem;
+    }
+
+    .export-option:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      border-color: #3B82F6;
+    }
+
+    .export-option i {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: var(--bs-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="editor-container animate__animated animate__fadeInUp">
+          <!-- Шапка редактора -->
+          <div class="editor-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <h3 class="mb-0">Редактор документа</h3>
+              <div class="d-flex gap-3">
+                <button class="btn btn-outline-light" onclick="window.location.href='none1.html'">
+                  <i class="bi bi-arrow-left me-2"></i>Назад
+                </button>
+                <button class="btn btn-outline-light ms-2" onclick="window.location.href='index.html'">
+                  <i class="bi bi-house-door me-2"></i>На главную
+                </button>
+                <div class="dropdown">
+                  <button class="export-btn dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-download"></i> Экспорт
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="exportDropdown">
+                    <li><h6 class="dropdown-header">Форматы экспорта</h6></li>
+                    <li><a class="dropdown-item" href="#" onclick="showExportModal('pdf')"><i class="bi bi-file-earmark-pdf me-2"></i>PDF</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="showExportModal('docx')"><i class="bi bi-file-earmark-word me-2"></i>DOCX</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="showExportModal('md')"><i class="bi bi-markdown me-2"></i>Markdown</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" onclick="showExportModal('print')"><i class="bi bi-printer me-2"></i>Печать</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="showExportModal('github')"><i class="bi bi-github me-2"></i>GitHub Gist</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <p class="mb-0 mt-2 text-muted">Шаблон: Договор на разработку программного обеспечения</p>
+          </div>
+
+          <!-- Панель инструментов -->
+          <div class="editor-toolbar">
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-outline-secondary" title="Полужирный"><i class="bi bi-type-bold"></i></button>
+              <button class="btn btn-outline-secondary" title="Курсив"><i class="bi bi-type-italic"></i></button>
+              <button class="btn btn-outline-secondary" title="Подчеркивание"><i class="bi bi-type-underline"></i></button>
+            </div>
+            <div class="btn-group btn-group-sm ms-2">
+              <button class="btn btn-outline-secondary" title="Маркированный список"><i class="bi bi-list-ul"></i></button>
+              <button class="btn btn-outline-secondary" title="Нумерованный список"><i class="bi bi-list-ol"></i></button>
+            </div>
+            <div class="btn-group btn-group-sm ms-2">
+              <button class="btn btn-outline-secondary" title="Выравнивание по левому краю"><i class="bi bi-text-left"></i></button>
+              <button class="btn btn-outline-secondary" title="По центру"><i class="bi bi-text-center"></i></button>
+              <button class="btn btn-outline-secondary" title="По правому краю"><i class="bi bi-text-right"></i></button>
+            </div>
+            <div class="btn-group btn-group-sm ms-2">
+              <button class="btn btn-outline-secondary" title="Увеличить отступ"><i class="bi bi-indent"></i></button>
+              <button class="btn btn-outline-secondary" title="Уменьшить отступ"><i class="bi bi-outdent"></i></button>
+            </div>
+            <div class="btn-group btn-group-sm ms-2">
+              <button class="btn btn-outline-secondary" title="Добавить поле"><i class="bi bi-input-cursor-text"></i></button>
+              <button class="btn btn-outline-secondary" title="Проверить орфографию"><i class="bi bi-spellcheck"></i></button>
+            </div>
+          </div>
+
+          <!-- Контент документа -->
+          <div class="editor-content" id="documentContent" contenteditable="true">
+            <h2 class="text-center mb-4">Договор № <span class="template-field" data-field="number">[номер]</span></h2>
+            <h3 class="text-center mb-5">на разработку программного обеспечения</h3>
+            
+            <p class="text-center">г. <span class="template-field" data-field="city">[Город]</span><br>
+            «<span class="template-field" data-field="date">[Дата]</span>»</p>
+            
+            <p><strong><span class="template-field" data-field="customer_name">[Наименование Заказчика]</span></strong>, в лице <span class="template-field" data-field="customer_representative">[ФИО, должность]</span>, действующего
+            на основании <span class="template-field" data-field="customer_basis">[Устава/доверенности]</span>, именуемое в дальнейшем «Заказчик»,
+            с одной стороны, и<br>
+            <strong><span class="template-field" data-field="executor_name">[Наименование Исполнителя]</span></strong>, в лице <span class="template-field" data-field="executor_representative">[ФИО, должность]</span>,
+            действующего на основании <span class="template-field" data-field="executor_basis">[Устава/доверенности]</span>, именуемое в
+            дальнейшем «Исполнитель», с другой стороны, совместно именуемые
+            «Стороны», заключили настоящий договор (далее — «Договор») о
+            нижеследующем:</p>
+            
+            <h4 class="mt-5 mb-3">1. Предмет договора</h4>
+            
+            <p>1.1. Исполнитель обязуется по заданию Заказчика разработать программное
+            обеспечение (далее — ПО), описание которого содержится в <strong>Приложении
+            №1</strong> к настоящему Договору, и передать его Заказчику, а Заказчик —
+            принять результат работ и оплатить их.</p>
+            
+            <h4 class="mt-5 mb-3">2. Сроки выполнения работ</h4>
+            
+            <p>2.1. Работы по настоящему Договору выполняются в следующие этапы:</p>
+            
+            <ul>
+              <li>Этап 1: <span class="template-field" data-field="stage1_desc">[Описание]</span>, срок выполнения: <span class="template-field" data-field="stage1_date">[Дата]</span></li>
+              <li>Этап 2: <span class="template-field" data-field="stage2_desc">[Описание]</span>, срок выполнения: <span class="template-field" data-field="stage2_date">[Дата]</span></li>
+            </ul>
+            
+            <p>2.2. Общий срок выполнения работ: до «<span class="template-field" data-field="final_date">[Дата]</span>».</p>
+            
+            <!-- Остальные разделы документа -->
+            <!-- ... -->
+            
+            <h4 class="mt-5 mb-3">9. Реквизиты сторон</h4>
+            
+            <div class="row">
+              <div class="col-md-6">
+                <h5>Заказчик:</h5>
+                <p><span class="template-field" data-field="customer_full_name">[Полное наименование]</span><br>
+                ИНН/КПП: <span class="template-field" data-field="customer_inn">[ИНН]</span>/<span class="template-field" data-field="customer_kpp">[КПП]</span><br>
+                Юр. адрес: <span class="template-field" data-field="customer_address">[Адрес]</span><br>
+                Банк: <span class="template-field" data-field="customer_bank">[Банк]</span><br>
+                Р/с: <span class="template-field" data-field="customer_account">[Р/с]</span><br>
+                Корр. счет: <span class="template-field" data-field="customer_corr">[Корр. счет]</span><br>
+                БИК: <span class="template-field" data-field="customer_bik">[БИК]</span></p>
+              </div>
+              <div class="col-md-6">
+                <h5>Исполнитель:</h5>
+                <p><span class="template-field" data-field="executor_full_name">[Полное наименование]</span><br>
+                ИНН/КПП: <span class="template-field" data-field="executor_inn">[ИНН]</span>/<span class="template-field" data-field="executor_kpp">[КПП]</span><br>
+                Юр. адрес: <span class="template-field" data-field="executor_address">[Адрес]</span><br>
+                Банк: <span class="template-field" data-field="executor_bank">[Банк]</span><br>
+                Р/с: <span class="template-field" data-field="executor_account">[Р/с]</span><br>
+                Корр. счет: <span class="template-field" data-field="executor_corr">[Корр. счет]</span><br>
+                БИК: <span class="template-field" data-field="executor_bik">[БИК]</span></p>
+              </div>
+            </div>
+            
+            <div class="row mt-4">
+              <div class="col-md-6 text-center">
+                <p>_____________________ / <span class="template-field" data-field="customer_signature">[ФИО]</span> /<br>
+                <strong>(Заказчик)</strong></p>
+              </div>
+              <div class="col-md-6 text-center">
+                <p>_____________________ / <span class="template-field" data-field="executor_signature">[ФИО]</span> /<br>
+                <strong>(Исполнитель)</strong></p>
+              </div>
+            </div>
+            
+            <div class="mt-5 p-3 bg-light rounded">
+              <h5 class="text-center">Приложение №1</h5>
+              <h4 class="text-center mb-4">Техническое задание</h4>
+              <p class="text-center"><em>(включается как отдельная страница в конце)</em></p>
+            </div>
+          </div>
+
+          <!-- Статус бар -->
+          <div class="status-bar">
+            <div>
+              <span class="word-count">0 слов</span> | <span id="charCount">0 символов</span>
+            </div>
+            <div>
+              <span id="lastSaved">Не сохранено</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно экспорта -->
+  <div class="modal fade" id="exportModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content export-modal">
+        <div class="modal-header">
+          <h5 class="modal-title">Экспорт документа</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="export-option" onclick="exportDocument('pdf')">
+                <div class="text-center">
+                  <i class="bi bi-file-earmark-pdf"></i>
+                  <h5>PDF</h5>
+                  <p class="text-muted">Стандартный формат для печати и обмена</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="export-option" onclick="exportDocument('docx')">
+                <div class="text-center">
+                  <i class="bi bi-file-earmark-word"></i>
+                  <h5>DOCX</h5>
+                  <p class="text-muted">Формат Microsoft Word с сохранением стилей</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="export-option" onclick="exportDocument('md')">
+                <div class="text-center">
+                  <i class="bi bi-markdown"></i>
+                  <h5>Markdown</h5>
+                  <p class="text-muted">Простой текстовый формат с разметкой</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="export-option" onclick="exportDocument('github')">
+                <div class="text-center">
+                  <i class="bi bi-github"></i>
+                  <h5>GitHub Gist</h5>
+                  <p class="text-muted">Опубликовать как приватный или публичный Gist</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="removeWatermark">
+              <label class="form-check-label" for="removeWatermark">
+                Удалить водяной знак (только для премиум-пользователей)
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="button" class="btn btn-primary" id="confirmExport">Экспортировать</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Скрипты -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.1.0/docx.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.0/mammoth.browser.min.js"></script>
+  <script>
+    // Текущий тип экспорта
+    let currentExportType = '';
+    
+    // Инициализация редактора
+    document.addEventListener('DOMContentLoaded', function() {
+      // Подсчет слов и символов
+      updateCounters();
+      document.getElementById('documentContent').addEventListener('input', updateCounters);
+      
+          // Запрет выделения для всего документа
+      document.addEventListener('selectstart', function(e) {
+        const target = e.target;
+        if (!target.classList.contains('template-field') &&
+            !target.closest('.template-field')) {
+          e.preventDefault();
+        }
+      });
+
+      // Полный запрет копирования
+      document.addEventListener('copy', function(e) {
+        const selection = window.getSelection();
+        const selectedText = selection.toString();
+
+        // Разрешаем копирование только из полей шаблона
+        const inTemplateField = selection.anchorNode.parentElement.classList.contains('template-field') ||
+                              selection.focusNode.parentElement.classList.contains('template-field');
+
+        if (!inTemplateField && selectedText.length > 0) {
+          e.preventDefault();
+          alert('Копирование текста запрещено, кроме полей шаблона. Полный доступ доступен в платной версии.');
+        }
+      });
+
+      // Запрет перетаскивания (drag-and-drop)
+      document.addEventListener('dragstart', function(e) {
+        if (!e.target.classList.contains('template-field')) {
+          e.preventDefault();
+        }
+      });
+      
+      // Анимация при фокусе на поле
+      document.querySelectorAll('.template-field').forEach(field => {
+        field.addEventListener('focus', function() {
+          this.classList.add('animate-pop');
+          setTimeout(() => this.classList.remove('animate-pop'), 300);
+        });
+      });
+    });
+
+    // Запрет редактирования контента вне полей шаблона
+    document.getElementById('documentContent').addEventListener('input', function(e) {
+      const selection = window.getSelection();
+      if (!selection.anchorNode.parentElement.classList.contains('template-field')) {
+        e.preventDefault();
+        alert('Редактирование возможно только в полях шаблона (синий текст). Полный доступ доступен в платной версии.');
+        document.execCommand('undo');
+      }
+    });
+
+    // Запрет контекстного меню
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      alert('Контекстное меню отключено в демо-версии.');
+    });
+
+    // Блокировка горячих клавиш
+    document.addEventListener('keydown', function(e) {
+      // Ctrl+B, Ctrl+I, Ctrl+U и т.д.
+      if (e.ctrlKey && [66, 73, 85, 67, 86, 88].includes(e.keyCode)) {
+        e.preventDefault();
+        alert('Горячие клавиши отключены в демо-версии.');
+      }
+    });
+
+
+    // Обработчики для кнопок форматирования
+    document.querySelectorAll('.editor-toolbar button').forEach(button => {
+      button.addEventListener('click', function(e) {
+        if (!this.classList.contains('dropdown-toggle')) { // Исключаем кнопку экспорта
+          e.preventDefault();
+          alert('Эта функция доступна в платной версии редактора.');
+        }
+      });
+    });
+
+    // Запрет вставки и других команд
+    document.addEventListener('paste', function(e) {
+      e.preventDefault();
+      alert('Вставка текста запрещена. Используйте только поля шаблона.');
+    });
+    
+    // Обновление счетчиков слов и символов
+    function updateCounters() {
+      const content = document.getElementById('documentContent').textContent;
+      const wordCount = content.trim() === '' ? 0 : content.trim().split(/\s+/).length;
+      const charCount = content.length;
+      
+      document.querySelector('.word-count').textContent = wordCount + ' слов';
+      document.getElementById('charCount').textContent = charCount + ' символов';
+      
+      // Автосохранение каждые 30 секунд
+      if (Date.now() - (window.lastSaveTime || 0) > 30000) {
+        saveDocument();
+      }
+    }
+    
+    // Сохранение документа
+    function saveDocument() {
+      window.lastSaveTime = Date.now();
+      document.getElementById('lastSaved').textContent = 'Сохранено: ' + new Date().toLocaleTimeString();
+    }
+    
+    // Показать модальное окно экспорта
+    function showExportModal(type) {
+      currentExportType = type;
+      const modal = new bootstrap.Modal(document.getElementById('exportModal'));
+      modal.show();
+      
+      // Настройка кнопки подтверждения
+      document.getElementById('confirmExport').onclick = function() {
+        exportDocument(type);
+        modal.hide();
+      };
+      
+      // Анимация появления
+      gsap.from(".export-modal .modal-content", {
+        y: 50,
+        opacity: 0,
+        duration: 0.3,
+        ease: "back.out(1.7)"
+      });
+    }
+    
+    // Экспорт документа
+    function exportDocument(type) {
+      const content = document.getElementById('documentContent');
+      const watermark = document.querySelector('#removeWatermark').checked;
+      
+      switch(type) {
+        case 'pdf':
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+          doc.text(content.textContent, 10, 10);
+          doc.save('document.pdf');
+          break;
+          // Здесь будет код для генерации PDF
+          break;
+          
+        case 'docx':
+          const { Document, Paragraph, TextRun } = docx;
+          const doc = new Document({
+            sections: [{
+              properties: {},
+              children: [new Paragraph({ children: [new TextRun(content.textContent)] })]
+            }]
+          });
+          docx.Packer.toBlob(doc).then(blob => {
+            saveAs(blob, "document.docx");
+          });
+          break;
+          
+        case 'md':
+          let markdownContent = content.innerHTML
+            .replace(/<h[1-6][^>]*>(.*?)<\/h[1-6]>/g, '# $1\n')
+            .replace(/<p[^>]*>(.*?)<\/p>/g, '$1\n\n')
+            .replace(/<ul[^>]*>|<\/ul>/g, '')
+            .replace(/<li[^>]*>(.*?)<\/li>/g, '- $1\n')
+            .replace(/<[^>]+>/g, '');
+
+          const blob = new Blob([markdownContent], { type: 'text/markdown' });
+          saveAs(blob, "document.md");
+          break;
+          
+        case 'github':
+          alert('Экспорт на GitHub Gist будет выполнен. Водяной знак: ' + (watermark ? 'удален' : 'оставлен'));
+          // Здесь будет код для отправки на GitHub
+          break;
+          
+        case 'print':
+          const printWindow = window.open('', '_blank');
+          printWindow.document.write(`
+            <html><head><title>Печать документа</title>
+            <style>body { font-family: Arial; padding: 20px; }</style>
+            </head><body>${content.innerHTML}</body></html>
+          `);
+          printWindow.document.close();
+          printWindow.focus();
+          setTimeout(() => {
+            printWindow.print();
+            printWindow.close();
+          }, 500);
+          break;
+      }
+      
+      // Показать уведомление об успешном экспорте
+      showExportSuccess(type);
+    }
+    
+    // Показать уведомление об успешном экспорте
+    function showExportSuccess(type) {
+      const toast = document.createElement('div');
+      toast.className = 'position-fixed bottom-0 end-0 p-3';
+      toast.style.zIndex = '1100';
+      
+      toast.innerHTML = `
+        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header bg-success text-white">
+            <strong class="me-auto">Успешно</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            Документ успешно экспортирован в ${type.toUpperCase()}
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('fade');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Инициализация полей
+      document.querySelectorAll('.template-field').forEach(field => {
+        // Сохраняем оригинальный текст (убираем квадратные скобки)
+        const originalText = field.textContent.replace(/^\[|\]$/g, '');
+        field.setAttribute('data-original', originalText);
+        field.textContent = originalText;
+        field.setAttribute('data-empty', 'false');
+        field.setAttribute('data-editing', 'false');
+
+        // Обработчик клика
+        field.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (this.getAttribute('data-empty') === 'false') {
+            this.textContent = '';
+            this.setAttribute('data-empty', 'true');
+            this.setAttribute('data-editing', 'true');
+          }
+          this.focus();
+        });
+
+        // Обработчик ввода
+        field.addEventListener('input', function() {
+          this.setAttribute('data-editing', 'true');
+          this.style.color = '#000000'; // Черный цвет при вводе
+        });
+
+        // Обработчик клавиш
+        field.addEventListener('keydown', function(e) {
+          // Если поле пустое и нажат Backspace
+          if (e.key === 'Backspace' && this.textContent === '') {
+            this.setAttribute('data-empty', 'false');
+            this.textContent = this.getAttribute('data-original');
+            this.setAttribute('data-editing', 'false');
+            // Перемещаем курсор в начало
+            const range = document.createRange();
+            range.selectNodeContents(this);
+            range.collapse(false);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            e.preventDefault();
+          }
+        });
+
+        // Обработчик потери фокуса
+        field.addEventListener('blur', function() {
+          if (this.textContent.trim() === '' || this.textContent.trim() === this.getAttribute('data-original')) {
+            this.textContent = this.getAttribute('data-original');
+            this.setAttribute('data-empty', 'false');
+            this.style.color = '#000000'; // Черный цвет
+          }
+          this.setAttribute('data-editing', 'false');
+        });
+
+        // Обработчик фокуса
+        field.addEventListener('focus', function() {
+          if (this.getAttribute('data-empty') === 'false') {
+            this.textContent = '';
+            this.setAttribute('data-empty', 'true');
+            this.setAttribute('data-editing', 'true');
+          }
+        });
+      });
+
+      // Запрет редактирования контента вне полей шаблона
+      document.getElementById('documentContent').addEventListener('keydown', function(e) {
+        const selection = window.getSelection();
+        if (!selection.anchorNode.parentElement.classList.contains('template-field')) {
+          e.preventDefault();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
